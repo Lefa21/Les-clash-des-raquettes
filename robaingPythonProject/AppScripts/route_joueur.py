@@ -13,13 +13,15 @@ def get_personnes():
 
 @personnes_bp.route('/inserer_joueur', methods=['POST'])
 def inserer_joueur():
-    id = request.form.get('id')
-    prenom = request.form.get('prenom')
-    nom = request.form.get('nom')
-    date_naissance = request.form.get('date_naissance')
-    sexe = request.form.get('sexe')
-    pseudo = request.form.get('pseudo')
-    return joueur.inserer_joueur(id, prenom, nom, date_naissance, sexe, pseudo)
+    data = request.get_json()
+    prenom = data['prenom']
+    nom =  data['nom']
+    date_naissance = data['date_naissance']
+    sexe = data['sexe']
+    pseudo = data['pseudo']
+    return joueur.inserer_joueur(prenom, nom, date_naissance, sexe, pseudo)
+
+
 
 
 @personnes_bp.route('/supprimer_joueur', methods=['POST'])

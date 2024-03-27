@@ -11,9 +11,12 @@ class Joueur(Connexion):
     def __init__(self):
         Connexion.__init__(self)
 
-    def inserer_joueur(self, id: int, prenom: str, nom: str, date_naissance: str, sexe: str, pseudo: str):
+    def inserer_joueur(self, prenom: str, nom: str, date_naissance: str, sexe: str, pseudo: str):
         """Insère un joueur avec tous les attributs entrés, ssi un joueur avec le même prénom,
          le même nom et la même date de naissance n'existe pas"""
+        if prenom is None or nom is None or date_naissance is None or sexe is None or pseudo is None:
+            return "Veuillez fournir toutes les informations nécessaires pour insérer un joueur"
+
         coll = self.db.personnes
         if self.joueur_existe(nom, prenom, date_naissance):
             return "Ce joueur existe déjà, il n'a pas été inséré"

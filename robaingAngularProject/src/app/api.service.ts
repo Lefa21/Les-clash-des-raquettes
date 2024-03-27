@@ -12,6 +12,10 @@ export class ApiService {
     return this.http.get<Player[]>(`/api/personnes/`)
   }
 
+  addJoueur(player: Player): Observable<string> {
+    return this.http.post('/api/personnes/inserer_joueur', player, { responseType: 'text' })
+  }
+
   modifPseudo(): void {
     this.http.get('/api/personnes/modifier_joueur')
   }

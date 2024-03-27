@@ -1,26 +1,22 @@
 <div class="container mt-5">
-  <form method="post">
-    <div class="form-group">
-      <label for="identifiant">Identifiant</label>
-      <input type="text" class="form-control" id="identifiant" placeholder="Votre identifiant">
-    </div>
+  <form (ngSubmit)="onSubmit()">
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="nom">Nom</label>
-        <input type="text" class="form-control" id="nom" placeholder="Votre nom">
+        <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom" [(ngModel)]="joueurData.nom">
       </div>
       <div class="form-group col-md-6">
         <label for="prenom">Prénom</label>
-        <input type="text" class="form-control" id="prenom" placeholder="Votre prénom">
+        <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Votre prénom" [(ngModel)]="joueurData.prenom">
       </div>
     </div>
     <div class="form-group">
       <label for="dateNaissance">Date de Naissance</label>
-      <input type="date" class="form-control" id="dateNaissance">
+      <input type="date" class="form-control" id="dateNaissance" name="dateNaissance" [(ngModel)]="joueurData.date_naissance">
     </div>
     <div class="form-group">
       <label for="sexe">Sexe</label>
-      <select class="form-control" id="sexe">
+      <select class="form-control" id="sexe" name="sexe" [(ngModel)]="joueurData.sexe">
         <option value="homme">Homme</option>
         <option value="femme">Femme</option>
         <option value="autre">Autre</option>
@@ -28,12 +24,11 @@
     </div>
     <div class="form-group">
       <label for="pseudo">Pseudo</label>
-      <input type="text" class="form-control" id="pseudo" placeholder="Votre pseudo">
+      <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Votre pseudo" [(ngModel)]="joueurData.pseudo">
     </div>
     <button type="submit" class="btn btn-primary">Soumettre</button>
   </form>
+  <div *ngIf="messageFromServer">
+    <p>{{ messageFromServer }}</p>
+  </div>
 </div>
-<br>
-<a routerLink="/projet-s4" class="btn btn-primary btn-lg">
-  <i class="fas fa-arrow-left mr-2"></i> Retour
-</a>
