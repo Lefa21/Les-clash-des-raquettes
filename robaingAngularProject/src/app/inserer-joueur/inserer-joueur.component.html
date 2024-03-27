@@ -1,0 +1,39 @@
+<div class="container mt-5">
+  <form method="post">
+    <div class="form-group">
+      <label for="identifiant">Identifiant</label>
+      <input type="text" class="form-control" id="identifiant" placeholder="Votre identifiant">
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="nom">Nom</label>
+        <input type="text" class="form-control" id="nom" placeholder="Votre nom">
+      </div>
+      <div class="form-group col-md-6">
+        <label for="prenom">Prénom</label>
+        <input type="text" class="form-control" id="prenom" placeholder="Votre prénom">
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="dateNaissance">Date de Naissance</label>
+      <input type="date" class="form-control" id="dateNaissance">
+    </div>
+    <div class="form-group">
+      <label for="sexe">Sexe</label>
+      <select class="form-control" id="sexe">
+        <option value="homme">Homme</option>
+        <option value="femme">Femme</option>
+        <option value="autre">Autre</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="pseudo">Pseudo</label>
+      <input type="text" class="form-control" id="pseudo" placeholder="Votre pseudo">
+    </div>
+    <button type="submit" class="btn btn-primary">Soumettre</button>
+  </form>
+</div>
+<br>
+<a routerLink="/projet-s4" class="btn btn-primary btn-lg">
+  <i class="fas fa-arrow-left mr-2"></i> Retour
+</a>

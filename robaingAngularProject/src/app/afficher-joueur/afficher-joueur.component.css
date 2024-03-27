@@ -1,0 +1,9 @@
+/* Ajoutez ces styles dans votre fichier CSS */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 10px; /* Ajustez la valeur selon vos besoins */
+}
