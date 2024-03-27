@@ -18,7 +18,7 @@ class Joueur(Connexion):
             return "Veuillez fournir toutes les informations nécessaires pour insérer un joueur"
 
         coll = self.db.personnes
-        if self.joueur_existe(nom, prenom, date_naissance):
+        if self.joueur_existe(pseudo):
             return "Ce joueur existe déjà, il n'a pas été inséré"
         else:
             Joueur._next_id += 1
@@ -27,9 +27,9 @@ class Joueur(Connexion):
                  "pseudo": pseudo})
             return "Ce joueur a été inséré ! "
 
-    def joueur_existe(self, nom: str, prenom: str, dateDeNaissance: str):
+    def joueur_existe(self, pseudo: str):
         coll = self.db.personnes
-        requete = coll.find_one({"nom": nom, "prenom": prenom, "date_naissance": dateDeNaissance})
+        requete = coll.find_one({"pseudo": pseudo})
         if (requete != None):
             return True
         else:
