@@ -7,9 +7,11 @@ cors = CORS(app)
 
 app.register_blueprint(personnes_bp, url_prefix='/api/personnes')
 
+
 @app.route('/')
 def hello_world():
     return 'Hello World!'
 
+
 if __name__ == '__main__':
-    app.run(debug = True)
+    app.run(debug=True)
