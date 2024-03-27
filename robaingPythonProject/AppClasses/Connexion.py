@@ -1,4 +1,4 @@
-import pymongo, json
+import pymongo
 
 
 class Connexion:

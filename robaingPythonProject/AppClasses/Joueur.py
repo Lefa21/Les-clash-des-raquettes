@@ -6,6 +6,8 @@ from robaingPythonProject.AppClasses.Connexion import Connexion
 
 class Joueur(Connexion):
 
+    _next_id = 0
+
     def __init__(self):
         Connexion.__init__(self)
 
@@ -16,8 +18,9 @@ class Joueur(Connexion):
         if self.joueur_existe(nom, prenom, date_naissance):
             return "Ce joueur existe déjà, il n'a pas été inséré"
         else:
+            Joueur._next_id += 1
             coll.insert_one(
-                {"_id": id, "prenom": prenom, "nom": nom, "date_naissance": date_naissance, "sexe": sexe,
+                {"_id": self._next_id, "prenom": prenom, "nom": nom, "date_naissance": date_naissance, "sexe": sexe,
                  "pseudo": pseudo})
             return "Ce joueur a été inséré ! "
 
