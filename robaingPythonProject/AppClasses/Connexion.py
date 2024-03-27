@@ -3,7 +3,7 @@ import pymongo, json
 
 class Connexion:
 
-    def __init__(self):
+    def __init__(self): # initialisation de la connexion à la bd
         self.client = pymongo.MongoClient("mongodb://localhost:27017/")
         self.db = self.client["pingpongtournament"]
 
