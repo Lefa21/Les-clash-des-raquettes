@@ -2,15 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {RouterLink, RouterOutlet} from "@angular/router";
 import {ApiService} from "../api.service";
 import {NgIf, NgFor} from "@angular/common";
+import {Player} from "../Player";
 import {resolve} from "node:path";
-
-export interface Player {
-  nom: string;
-  prenom: string;
-  date_naissance: string;
-  sexe: string;
-  pseudo: string;
-}
 
 @Component({
   selector: 'app-afficher-joueur',
