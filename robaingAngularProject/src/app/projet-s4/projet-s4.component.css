@@ -1,0 +1,25 @@
+.navbar {
+  background-color: #f7d7eb;
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-brand {
+  color: #8e3a5f;
+}
+
+.navbar-toggler-icon {
+  background-color: #8e3a5f;
+}
+
+.nav-link {
+  color: #8e3a5f !important;
+}
+
+.nav-link:hover {
+  color: #6c2743 !important;
+}
+
+.navbar-nav {
+  margin: auto;
+}
