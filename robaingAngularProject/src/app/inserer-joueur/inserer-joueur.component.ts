@@ -4,6 +4,7 @@ import {Player} from "../Player";
 import {ApiService} from "../api.service";
 import {FormsModule} from "@angular/forms";
 import {NgIf} from "@angular/common";
+import {response} from "express";
 @Component({
   selector: 'app-inserer-joueur',
   standalone: true,
@@ -19,16 +20,31 @@ export class InsererJoueurComponent {
     sexe: '',
     pseudo: ''
   };
-
-  messageFromServer : string | undefined
+  messageFromServer : string = '';
+  messageFromServer2 : string = '';
+  file: File | null = null;
 
   constructor(private joueurService: ApiService) { }
 
+
+
   onSubmit() {
     this.joueurService.addJoueur(this.joueurData).subscribe(
-      response => {
+      (response : string) => {
         this.messageFromServer = response;
       },
     );
+  }
+  onFileSelected(event: any) {
+    this.file = event.target.files[0];
+  }
+  onFileSubmit(){
+    if (this.file){
+      this.joueurService.sendFile(this.file).subscribe(
+        (response : string) => {
+          this.messageFromServer2 = response;
+        }
+      )
+    }
   }
 }

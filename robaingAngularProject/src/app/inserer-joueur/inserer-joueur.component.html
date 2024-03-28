@@ -1,6 +1,7 @@
 <div class="container mt-5">
   <form (ngSubmit)="onSubmit()">
     <div class="form-row">
+      <h2>Ajouter un Joueur</h2>
       <div class="form-group col-md-6">
         <label for="nom">Nom</label>
         <input type="text" class="form-control" id="nom" name="nom" placeholder="Votre nom" [(ngModel)]="joueurData.nom">
@@ -30,5 +31,21 @@
   </form>
   <div *ngIf="messageFromServer">
     <p>{{ messageFromServer }}</p>
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div>
+    <h2>Envoyer une liste de Joueurs via fichier CSV</h2>
+    <form (ngSubmit)="onFileSubmit()" #csvForm="ngForm">
+      <div class="form-group">
+        <label for="fichierCSV">Sélectionner un fichier CSV</label>
+        <input type="file" class="form-control-file" id="fichierCSV" name="fichierCSV" (change)="onFileSelected($event)" required>
+      </div>
+      <button type="submit" class="btn btn-primary" [disabled]="!csvForm.valid">soumettre</button>
+      <div *ngIf="messageFromServer2">
+        <p>{{ messageFromServer2 }}</p>
+      </div>
+    </form>
   </div>
 </div>

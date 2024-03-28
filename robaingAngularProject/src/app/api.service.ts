@@ -16,6 +16,12 @@ export class ApiService {
     return this.http.post('/api/personnes/inserer_joueur', player, { responseType: 'text' })
   }
 
+  sendFile(fichier: File): Observable<string> {
+    const formData = new FormData();
+    formData.append('fichier', fichier);
+    return this.http.post('/api/personnes/inserer_les_joueurs', formData, { responseType: 'text' });
+  }
+
   modifPseudo(): void {
     this.http.get('/api/personnes/modifier_joueur')
   }

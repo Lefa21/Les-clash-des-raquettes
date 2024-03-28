@@ -1,6 +1,4 @@
 
-import json
-
 from robaingPythonProject.AppClasses.Connexion import Connexion
 
 
@@ -26,6 +24,31 @@ class Joueur(Connexion):
                 {"_id": self._next_id, "prenom": prenom, "nom": nom, "date_naissance": date_naissance, "sexe": sexe,
                  "pseudo": pseudo})
             return "Ce joueur a été inséré ! "
+
+    def inserer_les_joueurs(self, file):
+        compteurY = 0
+        compteurN = 0
+        if file.filename.endswith('.csv'):
+            try:
+                with file.stream as csvfile:
+                    for line in csvfile:
+                        line = line.decode('utf-8').strip()
+                        prenom, nom, date_naissance, sexe, pseudo = line.split(';')
+
+                        retour = self.inserer_joueur(prenom, nom, date_naissance, sexe, pseudo)
+
+                        if retour == "Ce joueur a été inséré ! ":
+                            compteurY += 1
+                        else:
+                            compteurN += 1
+
+                return f"{compteurY} Joueurs ont pu être insérés sur {compteurN + compteurY}"
+            except Exception as e:
+                return f"Une erreur s'est produite : {e}"
+        else:
+            return f"{file.filename} n'est pas un fichier csv"
+
+
 
     def joueur_existe(self, pseudo: str):
         coll = self.db.personnes

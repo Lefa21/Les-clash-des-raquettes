@@ -21,7 +21,10 @@ def inserer_joueur():
     pseudo = data['pseudo']
     return joueur.inserer_joueur(prenom, nom, date_naissance, sexe, pseudo)
 
-
+@personnes_bp.route('/inserer_les_joueurs', methods=['POST'])
+def inserer_les_joueurs():
+    file = request.files['fichier']
+    return joueur.inserer_les_joueurs(file)
 
 
 @personnes_bp.route('/supprimer_joueur', methods=['POST'])
