@@ -21,7 +21,7 @@ class Joueur(Connexion):
         if self.joueur_existe(pseudo):
             return "Ce joueur existe déjà, il n'a pas été inséré"
         else:
-            Joueur._next_id += 1
+            Joueur._next_id = coll.count_documents({})
             coll.insert_one(
                 {"_id": self._next_id, "prenom": prenom, "nom": nom, "date_naissance": date_naissance, "sexe": sexe,
                  "pseudo": pseudo})
