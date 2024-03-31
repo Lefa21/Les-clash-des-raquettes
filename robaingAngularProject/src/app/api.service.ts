@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Player} from "./Player";
+import {Tournament} from "./Tournament";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class ApiService {
 
   addJoueur(player: Player): Observable<string> {
     return this.http.post('/api/personnes/inserer_joueur', player, { responseType: 'text' })
+  }
+
+  addTournoi(tournament : Tournament): Observable<string>{
+    return this.http.post('/api/tournois/inserer_tournoi', tournament, { responseType: 'text' })
   }
 
   sendFile(fichier: File): Observable<string> {

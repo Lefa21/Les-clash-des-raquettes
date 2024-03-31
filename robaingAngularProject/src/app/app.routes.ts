@@ -6,6 +6,7 @@ import {AfficherJoueurComponent} from "./afficher-joueur/afficher-joueur.compone
 import {InsererJoueurComponent} from "./inserer-joueur/inserer-joueur.component";
 import {ModifierJoueurComponent} from "./modifier-joueur/modifier-joueur.component";
 import {SupprimerJoueurComponent} from "./supprimer-joueur/supprimer-joueur.component";
+import {InsererTournoiComponent} from "./inserer-tournoi/inserer-tournoi.component";
 
 export const routes: Routes = [
   {path: 'test-page1', component: TestPage1Component},
@@ -14,5 +15,6 @@ export const routes: Routes = [
   {path: 'afficher-joueur', component: AfficherJoueurComponent},
   {path: 'inserer-joueur', component: InsererJoueurComponent},
   {path: 'modifier-joueur', component: ModifierJoueurComponent},
-  {path: 'supprimer-joueur', component: SupprimerJoueurComponent}
+  {path: 'supprimer-joueur', component: SupprimerJoueurComponent},
+  {path: 'inserer-tournoi', component: InsererTournoiComponent}
 ];
