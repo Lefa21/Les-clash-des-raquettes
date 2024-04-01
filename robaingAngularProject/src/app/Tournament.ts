@@ -2,7 +2,7 @@
     nom_tournoi: string;
     date_tournoi: string;
     heure_debut_tournoi: string;
-    nombre_joueurs: number;
+    joueurs_participants: string[]
     nombre_tables: number;
     nombre_raquettes: number;
   }

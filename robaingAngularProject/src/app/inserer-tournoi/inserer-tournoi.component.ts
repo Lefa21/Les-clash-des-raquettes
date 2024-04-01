@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormsModule} from "@angular/forms";
-import {NgIf} from "@angular/common";
+import {NgForOf, NgIf} from "@angular/common";
 import {Tournament} from "../Tournament";
 import {Player} from "../Player";
 import {ApiService} from "../api.service";
@@ -10,7 +10,8 @@ import {ApiService} from "../api.service";
   standalone: true,
   imports: [
     FormsModule,
-    NgIf
+    NgIf,
+    NgForOf
   ],
   templateUrl: './inserer-tournoi.component.html',
   styleUrl: './inserer-tournoi.component.css'
@@ -20,13 +21,31 @@ export class InsererTournoiComponent {
     nom_tournoi: '',
     date_tournoi: '',
     heure_debut_tournoi: '',
-    nombre_joueurs: null as unknown as number,
+    joueurs_participants: [],
     nombre_tables: null as unknown as number,
     nombre_raquettes: null as unknown as number,
-  }
 
+  }
+  joueurs: Player[] = [];
   messageFromServer : string = '';
-  constructor(private tournoiService: ApiService) { }
+  constructor(private tournoiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.tournoiService.getAffichage().subscribe(
+      (joueurs: Player[]) => {
+        this.joueurs = joueurs;
+      },
+    );
+  }
+  selectedPlayer: Player | null = null;
+
+  addPlayer() {
+    if (this.selectedPlayer) {
+      this.tournoiData.joueurs_participants.push(this.selectedPlayer.pseudo);
+      this.joueurs = this.joueurs.filter(joueur => joueur !== this.selectedPlayer);
+      this.selectedPlayer = null;
+    }
+  }
   onSubmit() {
     this.tournoiService.addTournoi(this.tournoiData).subscribe(
       (response : string) => {

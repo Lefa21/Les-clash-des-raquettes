@@ -16,10 +16,6 @@
         <label for="heure_debut_tournoi">Heure de début du tournoi</label>
         <input type="time" class="form-control" id="heure_debut_tournoi" name="heure_debut_tournoi" [(ngModel)]="tournoiData.heure_debut_tournoi">
       </div>
-      <div class="form-group col-md-6">
-        <label for="nombre_joueurs">Nombre de joueurs</label>
-        <input type="number" class="form-control" id="nombre_joueurs" name="nombre_joueurs" placeholder="Nombre de joueurs" [(ngModel)]="tournoiData.nombre_joueurs">
-      </div>
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
@@ -30,6 +26,18 @@
         <label for="nombre_raquettes">Nombre de raquettes</label>
         <input type="number" class="form-control" id="nombre_raquettes" name="nombre_raquettes" placeholder="Nombre de raquettes" [(ngModel)]="tournoiData.nombre_raquettes">
       </div>
+    </div>
+    <div class="form-group">
+      <label for="select_joueur">Sélectionner un joueur</label>
+      <select class="form-control" id="select_joueur" name="select_joueur" [(ngModel)]="selectedPlayer" (change)="addPlayer()">
+        <option *ngFor="let joueur of joueurs" [ngValue]="joueur">{{ joueur.nom }} {{ joueur.prenom }}</option>
+      </select>
+    </div>
+    <div>
+      <h3>Joueurs sélectionnés :</h3>
+      <ul>
+        <li *ngFor="let pseudo of tournoiData.joueurs_participants">{{ pseudo }}</li>
+      </ul>
     </div>
     <button type="submit" class="btn btn-primary">Soumettre</button>
   </form>
