@@ -1,4 +1,4 @@
-from Connexion import Connexion
+from robaingPythonProject.AppClasses.Connexion import Connexion
 from robaingPythonProject.AppScripts.methodesUtiles import *
 from robaingPythonProject.AppClasses import FormatTournoi
 
