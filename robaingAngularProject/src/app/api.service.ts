@@ -2,15 +2,19 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Player, NewNamePlayer, namePlayer} from "./Player";
-import {Tournament} from "./Tournament";
+import {AffichageTournament, nameTournament, Tournament} from "./Tournament";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   constructor(private http: HttpClient) { }
-  getAffichage(): Observable<Player[]> {
+  getAffichageJoueur(): Observable<Player[]> {
     return this.http.get<Player[]>(`/api/personnes/`)
+  }
+
+  getAffichageTournament(): Observable<AffichageTournament[]> {
+    return this.http.get<AffichageTournament[]>('/api/tournois')
   }
 
   addJoueur(player: Player): Observable<string> {
@@ -23,6 +27,10 @@ export class ApiService {
 
   delJoueur(player: namePlayer): Observable<string> {
     return this.http.post('/api/personnes/supprimer_joueur', player, { responseType: 'text' })
+  }
+
+  delTournament(tournament: nameTournament): Observable<string> {
+    return this.http.post('/api/tournois/supprimer_tournoi', tournament, { responseType: 'text' })
   }
 
   sendFile(fichier: File): Observable<string> {

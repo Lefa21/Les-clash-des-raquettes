@@ -15,11 +15,10 @@ import {resolve} from "node:path";
 export class AfficherJoueurComponent implements OnInit{
   data: Player[] = [];
 
-  constructor(private apiService: ApiService) {
-  }
+  constructor(private apiService: ApiService) {}
 
   ngOnInit(): void {
-    this.apiService.getAffichage().subscribe(response => {
+    this.apiService.getAffichageJoueur().subscribe(response => {
       console.log(response);
       this.data = response;
 

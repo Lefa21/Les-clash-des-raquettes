@@ -107,6 +107,31 @@ class Tournoi(Connexion):
                     heure_match = date_heure_debut
         return liste_matchs
 
+    def display_tournament(self):
+        coll = self.db.tournoi
+        found = []
+        request = coll.find()
+
+        for tournoi in request:
+            filtered_tournament = {
+                'nom_tournoi': tournoi.get('nom_tournoi', ''),
+                'date_tournoi': tournoi.get('date_debut_tournoi', ''),
+                'heure_debut_tournoi': tournoi.get('heure_debut_tournoi', ''),
+                'nombre_participants': len(tournoi.get('liste_des_joueurs', []))
+            }
+            found.append(filtered_tournament)
+
+        return found
+
+    def supprimer_tournoi_par_nom(self, tournoi: str):
+        coll = self.db.tournoi
+        joueur = coll.find_one({"nom_tournoi": tournoi})
+        if joueur:
+            coll.delete_one({"nom_tournoi": tournoi})
+            return " Ce tournoi a été supprimé ! :)"
+        else:
+            return "Le tournoi avec le nom donné n'existe pas dans la base de données."
+
 
 if __name__ == '__main__':
     tournoi = Tournoi()

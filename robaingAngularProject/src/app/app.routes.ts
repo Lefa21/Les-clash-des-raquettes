@@ -5,6 +5,8 @@ import {InsererJoueurComponent} from "./inserer-joueur/inserer-joueur.component"
 import {ModifierJoueurComponent} from "./modifier-joueur/modifier-joueur.component";
 import {SupprimerJoueurComponent} from "./supprimer-joueur/supprimer-joueur.component";
 import {InsererTournoiComponent} from "./inserer-tournoi/inserer-tournoi.component"
+import {AfficherTournoiComponent} from "./afficher-tournoi/afficher-tournoi.component"
+import {SupprimerTournoiComponent} from "./supprimer-tournoi/supprimer-tournoi.component";
 
 export const routes: Routes = [
   {path: 'projet-s4', component: ProjetS4Component},
@@ -12,5 +14,7 @@ export const routes: Routes = [
   {path: 'inserer-joueur', component: InsererJoueurComponent},
   {path: 'modifier-joueur', component: ModifierJoueurComponent},
   {path: 'supprimer-joueur', component: SupprimerJoueurComponent},
-  {path: 'inserer-tournoi', component: InsererTournoiComponent}
+  {path: 'inserer-tournoi', component: InsererTournoiComponent},
+  {path: 'afficher-tournoi', component: AfficherTournoiComponent},
+  {path: 'supprimer-tournoi', component: SupprimerTournoiComponent}
 ];

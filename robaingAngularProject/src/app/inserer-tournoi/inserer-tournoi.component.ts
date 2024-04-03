@@ -23,6 +23,7 @@ export class InsererTournoiComponent {
     heure_debut_tournoi: '',
     joueurs_participants: [],
     nombre_tables: null as unknown as number,
+    liste_matchs: []
 
   }
   joueurs: Player[] = [];
@@ -30,7 +31,7 @@ export class InsererTournoiComponent {
   constructor(private tournoiService: ApiService) {}
 
   ngOnInit(): void {
-    this.tournoiService.getAffichage().subscribe(
+    this.tournoiService.getAffichageJoueur().subscribe(
       (joueurs: Player[]) => {
         this.joueurs = joueurs;
       },
