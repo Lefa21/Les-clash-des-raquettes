@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from robaingPythonProject.AppClasses.Joueur import Joueur
+from ProjetS4.robaingPythonProject.AppClasses.Joueur import Joueur
 
 joueur = Joueur()
 personnes_bp = Blueprint('routes', __name__)
