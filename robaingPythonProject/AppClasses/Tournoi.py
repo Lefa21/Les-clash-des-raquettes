@@ -72,8 +72,8 @@ class Tournoi(Connexion):
                     compteur_table = 0
         elif format_tournoi == "Tournoi à la ronde":
             liste_matchs = []
-            for i in range(joueurs.__len__()-1):
-                for j in range(i+1, joueurs.__len__() - 1):
+            for i in range(joueurs.__len__()):
+                for j in range(i+1, joueurs.__len__()):
                     liste_matchs.append([joueurs[i], joueurs[j], "Table " + str(compteur_table + 1),heure_match.strftime("%H.%M.%d.%m.%Y")])
                     compteur_table = compteur_table + 1
                     if compteur_table == nb_table:
