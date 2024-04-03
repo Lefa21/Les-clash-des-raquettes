@@ -1,0 +1,21 @@
+<div class="container mt-5">
+  <h2>Matches Du Tournoi</h2>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>JoueurA</th>
+      <th>JoueurB</th>
+      <th>Table</th>
+      <th>Horaire</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let match of data">
+      <td>{{ match.joueur_1 }}</td>
+      <td>{{ match.joueur_2 }}</td>
+      <td>{{ match.table }}</td>
+      <td>{{ match.horaire }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
