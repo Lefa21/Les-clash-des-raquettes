@@ -1,5 +1,5 @@
 
-from ProjetS4.robaingPythonProject.AppClasses.Connexion import Connexion
+from robaingPythonProject.AppClasses.Connexion import Connexion
 
 
 class Joueur(Connexion):

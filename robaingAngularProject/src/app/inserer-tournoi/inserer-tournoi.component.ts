@@ -23,7 +23,6 @@ export class InsererTournoiComponent {
     heure_debut_tournoi: '',
     joueurs_participants: [],
     nombre_tables: null as unknown as number,
-    nombre_raquettes: null as unknown as number,
 
   }
   joueurs: Player[] = [];
