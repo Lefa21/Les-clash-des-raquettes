@@ -35,6 +35,7 @@ def supprimer_joueur():
 
 @personnes_bp.route('/modifier_joueur', methods=['POST'])
 def modifier_joueur():
-    pseudo = request.form.get('ancienPseudo')
-    newpseudo = request.form.get('nouveauPseudo')
-    return joueur.modifier_joueur_par_nom(pseudo, newpseudo)
+    data = request.get_json()
+    pseudo = data['old_name']
+    newpseudo = data['new_name']
+    return joueur.modifier_joueur_par_pseudo(pseudo, newpseudo)

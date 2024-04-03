@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Player} from "./Player";
+import {Player, NewNamePlayer} from "./Player";
 import {Tournament} from "./Tournament";
 
 @Injectable({
@@ -27,8 +27,8 @@ export class ApiService {
     return this.http.post('/api/personnes/inserer_les_joueurs', formData, { responseType: 'text' });
   }
 
-  modifPseudo(): void {
-    this.http.get('/api/personnes/modifier_joueur')
+  modifierJoueurPseudo(formData: NewNamePlayer): Observable<string> {
+    return this.http.post('/api/personnes/modifier_joueur', formData, { responseType: 'text' });
   }
 }
 

@@ -1,5 +1,3 @@
-
-
 .navbar {
   background-color: #f7d7eb;
   display: flex;
@@ -28,7 +26,7 @@
 
 .btn-group-vertical {
   position: absolute;
-  top: 700%;
+  top: 1000%;
   left: 50%;
   transform: translate(-50%, -50%);
   display: flex;

@@ -65,7 +65,14 @@ class Joueur(Connexion):
 
     def modifier_joueur_par_pseudo(self, pseudo: str, nouveau_pseudo: str) -> str:
         coll = self.db.personnes
+        joueur_exist = coll.find_one({"pseudo": pseudo})
+        if joueur_exist is None:
+            return "Le joueur avec le pseudo spécifié n'existe pas dans la base de données."
+        pseudo_existe_deja = coll.find_one({"pseudo": nouveau_pseudo})
+        if pseudo_existe_deja:
+            return "Le nouveau pseudo spécifié est déjà utilisé par un autre joueur."
         coll.update_one({"pseudo": pseudo}, {"$set": {"pseudo": nouveau_pseudo}})
+
         return "Si il existe, ce joueur a été modifié !"
 
     def display_player(self):

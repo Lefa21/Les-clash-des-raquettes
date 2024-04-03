@@ -1,24 +1,36 @@
-import {Component, OnInit} from '@angular/core';
-import {RouterLink, RouterOutlet} from "@angular/router";
-import {ApiService} from "../api.service";
-import {NgIf, NgFor} from "@angular/common";
+import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../api.service';
+import { NewNamePlayer } from '../Player';
+import {FormsModule} from "@angular/forms";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-modifier-joueur',
-  standalone: true,
-  imports: [RouterOutlet, RouterLink, NgIf, NgFor],
   templateUrl: './modifier-joueur.component.html',
-  styleUrl: './modifier-joueur.component.css'
+  standalone: true,
+  imports: [
+    FormsModule,
+    NgIf
+  ],
+  styleUrls: ['./modifier-joueur.component.css']
 })
-export class ModifierJoueurComponent implements OnInit{
+export class ModifierJoueurComponent implements OnInit {
+  joueurData: NewNamePlayer = {
+    old_name: '',
+    new_name: '',
+  };
 
-  constructor(private apiService: ApiService) {
+  messageFromServer: string = '';
+
+  constructor(private joueurService: ApiService) {}
+
+  ngOnInit(): void {}
+
+  onSubmit() {
+    this.joueurService.modifierJoueurPseudo(this.joueurData).subscribe(
+      (response: string) => {
+        this.messageFromServer = response;
+      },
+    );
   }
-  ngOnInit(): void {
-    let baliseAncienPseudo = document.getElementById("ancienPseudo")
-    let baliseNouveauPseudo = document.getElementById("nouveauPseudo")
-
-
-  }
-
 }

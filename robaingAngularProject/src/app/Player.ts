@@ -5,3 +5,8 @@ export interface Player {
   sexe: string;
   pseudo: string;
 }
+
+export interface NewNamePlayer {
+  old_name: string;
+  new_name: string;
+}
