@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from robaingPythonProject.AppClasses.Tournoi import (Tournoi)
+from ProjetS4.robaingPythonProject.AppClasses.Tournoi import (Tournoi)
 
 tournoi = Tournoi()
 
