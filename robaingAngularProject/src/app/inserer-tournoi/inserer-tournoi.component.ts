@@ -27,6 +27,7 @@ export class InsererTournoiComponent {
 
   }
   joueurs: Player[] = [];
+  joueurs_selectionnes: Player[] = [];
   messageFromServer : string = '';
   constructor(private tournoiService: ApiService) {}
 
@@ -38,11 +39,11 @@ export class InsererTournoiComponent {
     );
   }
   selectedPlayer: Player | null = null;
-
   addPlayer() {
     if (this.selectedPlayer) {
       this.tournoiData.joueurs_participants.push(this.selectedPlayer.pseudo);
       this.joueurs = this.joueurs.filter(joueur => joueur !== this.selectedPlayer);
+      this.joueurs_selectionnes.push(this.selectedPlayer)
       this.selectedPlayer = null;
     }
   }
@@ -52,5 +53,16 @@ export class InsererTournoiComponent {
         this.messageFromServer = response;
       },
     );
+  }
+
+  retirerJoueur(pseudo: string) {
+    const index = this.tournoiData.joueurs_participants.indexOf(pseudo)
+    if(index != -1)
+      this.tournoiData.joueurs_participants.splice(index,1)
+      this.joueurs_selectionnes.forEach(joueur => {
+        if(joueur.pseudo == pseudo)
+          if(this.joueurs.indexOf(joueur) == -1)
+            this.joueurs.push(joueur)
+      })
   }
 }
