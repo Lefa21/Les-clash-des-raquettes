@@ -23,6 +23,9 @@ export interface Matchs {
     horaire : string;
   }
 
-  export interface nameTournament{
+  export class nameTournament{
     name: string;
+    constructor(name: string) {
+  this.name = name;
+}
   }
