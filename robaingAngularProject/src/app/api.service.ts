@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {Player, NewNamePlayer} from "./Player";
+import {Player, NewNamePlayer, namePlayer} from "./Player";
 import {Tournament} from "./Tournament";
 
 @Injectable({
@@ -19,6 +19,10 @@ export class ApiService {
 
   addTournoi(tournament : Tournament): Observable<string>{
     return this.http.post('/api/tournois/inserer_tournoi', tournament, { responseType: 'text' })
+  }
+
+  delJoueur(player: namePlayer): Observable<string> {
+    return this.http.post('/api/personnes/supprimer_joueur', player, { responseType: 'text' })
   }
 
   sendFile(fichier: File): Observable<string> {

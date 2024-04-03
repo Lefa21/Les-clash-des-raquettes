@@ -60,8 +60,12 @@ class Joueur(Connexion):
 
     def supprimer_joueur_par_pseudo(self, pseudo: str):
         coll = self.db.personnes
-        coll.delete_one({"pseudo": pseudo})
-        return "Si il existait, ce joueur a été supprimé ! :)"
+        joueur = coll.find_one({"pseudo": pseudo})
+        if joueur:
+            coll.delete_one({"pseudo": pseudo})
+            return " Ce joueur a été supprimé ! :)"
+        else:
+            return "Le joueur avec le pseudo donné n'existe pas dans la base de données."
 
     def modifier_joueur_par_pseudo(self, pseudo: str, nouveau_pseudo: str) -> str:
         coll = self.db.personnes

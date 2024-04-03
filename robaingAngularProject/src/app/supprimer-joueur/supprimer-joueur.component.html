@@ -1,11 +1,14 @@
 <div class="container mt-5">
-  <form method="post">
+  <form (ngSubmit)="onSubmit()">
     <div class="form-group">
-      <label for="pseudo">Pseudo</label>
-      <input type="text" class="form-control" id="pseudo" placeholder="Votre pseudo">
+      <label for="nouveauPseudo">Nouveau Pseudo</label>
+      <input type="text" class="form-control" id="nouveauPseudo" placeholder="Votre nouveau pseudo" [(ngModel)]="joueurData.name" name="nouveauPseudo">
     </div>
-    <button type="submit" class="btn btn-primary">Supprimer ce Joueur</button>
+    <button type="submit" class="btn btn-primary">Supprimer ce joueur</button>
   </form>
+  <div *ngIf="messageFromServer">
+    <p>{{ messageFromServer }}</p>
+  </div>
 </div>
 <br>
 <a routerLink="/projet-s4" class="btn btn-primary btn-lg">

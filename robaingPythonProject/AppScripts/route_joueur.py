@@ -29,8 +29,10 @@ def inserer_les_joueurs():
 
 @personnes_bp.route('/supprimer_joueur', methods=['POST'])
 def supprimer_joueur():
-    pseudo = request.form.get('pseudo')
-    return joueur.supprimer_joueur_par_nom(pseudo)
+    data = request.get_json()
+    pseudo = data['name']
+    print(pseudo)
+    return joueur.supprimer_joueur_par_pseudo(pseudo)
 
 
 @personnes_bp.route('/modifier_joueur', methods=['POST'])

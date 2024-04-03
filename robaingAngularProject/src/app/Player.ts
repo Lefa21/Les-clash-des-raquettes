@@ -10,3 +10,7 @@ export interface NewNamePlayer {
   old_name: string;
   new_name: string;
 }
+
+export interface namePlayer {
+  name: string;
+}
