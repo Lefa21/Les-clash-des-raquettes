@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
-from ProjetS4.robaingPythonProject.AppClasses.Connexion import Connexion
-from ProjetS4.robaingPythonProject.AppScripts.methodesUtiles import *
+from robaingPythonProject.AppClasses.Connexion import Connexion
+from robaingPythonProject.AppScripts.methodesUtiles import *
 from random import randint
 
 

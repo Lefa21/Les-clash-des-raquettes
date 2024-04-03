@@ -4,5 +4,4 @@
     heure_debut_tournoi: string;
     joueurs_participants: string[]
     nombre_tables: number;
-    nombre_raquettes: number;
   }

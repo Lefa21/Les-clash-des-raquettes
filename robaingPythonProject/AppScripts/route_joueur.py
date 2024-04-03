@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from ProjetS4.robaingPythonProject.AppClasses.Joueur import Joueur
+from robaingPythonProject.AppClasses.Joueur import Joueur
 
 joueur = Joueur()
 personnes_bp = Blueprint('routes', __name__)
@@ -29,8 +29,10 @@ def inserer_les_joueurs():
 
 @personnes_bp.route('/supprimer_joueur', methods=['POST'])
 def supprimer_joueur():
-    pseudo = request.form.get('pseudo')
-    return joueur.supprimer_joueur_par_nom(pseudo)
+    data = request.get_json()
+    pseudo = data['name']
+    print(pseudo)
+    return joueur.supprimer_joueur_par_pseudo(pseudo)
 
 
 @personnes_bp.route('/modifier_joueur', methods=['POST'])
