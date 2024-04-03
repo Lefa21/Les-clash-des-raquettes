@@ -43,8 +43,8 @@ class Tournoi(Connexion):
                     compteur_table = 0
         elif format_tournoi == "Tournoi à la ronde":
             liste_matchs = []
-            for i in range(joueurs.__len__()-1):
-                for j in range(i+1, joueurs.__len__() - 1):
+            for i in range(joueurs.__len__()):
+                for j in range(i+1, joueurs.__len__()):
                     liste_matchs.append([joueurs[i], joueurs[j], heure_match.strftime("%H.%M.%d.%m.%Y")])
                     compteur_table = compteur_table + 1
                     if compteur_table == nb_table:
@@ -61,5 +61,5 @@ class Tournoi(Connexion):
 if __name__ == '__main__':
     tournoi = Tournoi()
     print(
-        tournoi.generer_tournoi(["Robin", "Faraz", "Thomas", "Arthur", "Huseyin", "Thibault", "Sarah"], 7, 1,
+        tournoi.generer_tournoi(["Robin", "Faraz", "Thomas", "Arthur","Thibault"], 5, 1,
                                 datetime.now()))
