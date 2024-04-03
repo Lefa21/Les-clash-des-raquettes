@@ -14,10 +14,6 @@ def inserer_tournoi():
     date_tournoi = data['date_tournoi']
     heure_debut_tournoi = data['heure_debut_tournoi']
     nombre_tables = data['nombre_tables']
-
     joueurs_participants = data['joueurs_participants']
-    response = f"Nom du tournoi : {nom_tournoi}\nDate du tournoi : {date_tournoi}\nHeure de début du tournoi : {heure_debut_tournoi}\nNombre de tables : {nombre_tables}\nParticipants :"
-    for participant in joueurs_participants:
-        response += f"\n- {participant}"
 
-    return response
+    return tournoi.inserer_tournoi(nom_tournoi, date_tournoi, heure_debut_tournoi, nombre_tables, joueurs_participants)

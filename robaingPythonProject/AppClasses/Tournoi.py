@@ -10,7 +10,36 @@ class Tournoi(Connexion):
     def __init__(self):
         Connexion.__init__(self)
 
-    # def inserer_tournoi(self):
+    def inserer_tournoi(self, nom_tournoi : str, date_debut_tournoi : str , heure_debut_tournoi : str , nombre_de_table : int, liste_des_joueurs: list):
+
+        if not (nom_tournoi and date_debut_tournoi and heure_debut_tournoi and nombre_de_table and liste_des_joueurs):
+            return "Certains paramètres sont vides ou nuls"
+
+        if not liste_des_joueurs:
+            return "La liste des joueurs est vide"
+
+        liste_de_matchs = self.generer_tournoi(liste_des_joueurs, len(liste_des_joueurs), nombre_de_table, datetime.strptime(date_debut_tournoi + " " + heure_debut_tournoi, "%Y-%m-%d %H:%M"))
+
+
+        coll = self.db.tournoi
+        if self.tournoi_existe(nom_tournoi) :
+            return "Un tournoi ayant ce nom existe déjà "
+        else :
+            coll.insert_one(
+                {"nom_tournoi": nom_tournoi, "date_debut_tournoi": date_debut_tournoi,
+                 "heure_debut_tournoi": heure_debut_tournoi, "nombres_de_tables": nombre_de_table,
+                 "liste_des_joueurs": liste_des_joueurs, "liste_des_matchs": liste_de_matchs})
+            return "Tournoi inséré"
+
+
+    def tournoi_existe(self, nom_tournoi: str):
+        coll = self.db.tournoi
+        requete = coll.find_one({"nom_tournoi": nom_tournoi})
+        if (requete != None):
+            return True
+        else:
+            return False
+
 
     def definir_format_tournoi(self, nb_joueur: int) -> str:
         if est_puissance_de_2(nb_joueur) and nb_joueur <= 32:
@@ -45,7 +74,7 @@ class Tournoi(Connexion):
             liste_matchs = []
             for i in range(joueurs.__len__()):
                 for j in range(i+1, joueurs.__len__()):
-                    liste_matchs.append([joueurs[i], joueurs[j], heure_match.strftime("%H.%M.%d.%m.%Y")])
+                    liste_matchs.append([joueurs[i], joueurs[j], "Table " + str(compteur_table + 1),heure_match.strftime("%H.%M.%d.%m.%Y")])
                     compteur_table = compteur_table + 1
                     if compteur_table == nb_table:
                         heure_match += timedelta(minutes=6)  # Ajustement du temps
@@ -61,5 +90,5 @@ class Tournoi(Connexion):
 if __name__ == '__main__':
     tournoi = Tournoi()
     print(
-        tournoi.generer_tournoi(["Robin", "Faraz", "Thomas", "Arthur","Thibault"], 5, 1,
+        tournoi.generer_tournoi(["Robin", "Faraz", "Thomas", "Arthur", "Huseyin", "Thibault", "Sarah"], 7,  3,
                                 datetime.now()))
