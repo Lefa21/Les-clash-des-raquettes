@@ -1,5 +1,6 @@
 <div class="container mt-5" *ngIf="data && data.length > 0">
   <h2>Matches Du Tournoi</h2>
+  <form (ngSubmit)="onSubmit()">
   <table class="table">
     <thead>
     <tr>
@@ -11,13 +12,17 @@
     </thead>
     <tbody>
     <tr *ngFor="let match of data">
-      <td>{{ match[0] }}</td>
-      <td>{{ match[1] }}</td>
+        <td><input type="radio" id="j1" name="jGagnant{{data.indexOf(match)}}" value="{{ match[0] }}"  />
+          <label for="{{ match[0] }}">{{ match[0] }}</label></td>
+        <td><input type="radio" id="j2" name="jGagnant{{data.indexOf(match)}}" value="{{ match[1] }}"  />
+          <label for="{{ match[1] }}">{{ match[1] }}</label></td>
       <td>{{ match[2] }}</td>
       <td>{{ match[3] }}</td>
+
     </tr>
     </tbody>
   </table>
+  </form>
 </div>
 <div class="container mt-5" *ngIf="!data || data.length === 0">
   <p>Aucun match trouvé.</p>

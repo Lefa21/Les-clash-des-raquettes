@@ -5,11 +5,12 @@ import {Matchs, nameTournament} from '../Tournament';
 import {NgFor, NgIf} from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
 import moment from 'moment';
+import {FormsModule} from "@angular/forms";
 
 @Component({
   selector: 'app-detail-tournoi',
   templateUrl: './detail-tournoi.component.html',
-  imports:[RouterOutlet, RouterLink, NgIf, NgFor],
+  imports: [RouterOutlet, RouterLink, NgIf, NgFor, FormsModule],
   styleUrls: ['./detail-tournoi.component.css'],
   standalone: true
 })
@@ -30,5 +31,9 @@ export class DetailTournoiComponent implements OnInit {
 
       }
     });
+  }
+
+  onSubmit() {
+
   }
 }
