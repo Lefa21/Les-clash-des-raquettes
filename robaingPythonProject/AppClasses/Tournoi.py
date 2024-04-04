@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from robaingPythonProject.AppClasses.Connexion import Connexion
 from robaingPythonProject.AppScripts.methodesUtiles import *
 from random import randint
+from collections import Counter
 
 
 def joue_deja_a_cette_heure(joueur_1: str, heure_match: datetime, liste_matchs: list):
@@ -181,6 +182,48 @@ class Tournoi(Connexion):
             return " Ce tournoi a été supprimé ! :)"
         else:
             return "Le tournoi avec le nom donné n'existe pas dans la base de données."
+
+    def mettre_a_jour_tournoi (self, nom_tournoi: str, gagnants: list):
+        coll = self.db.tournoi
+        tournoi = coll.find_one({"nom_tournoi": nom_tournoi})
+
+        if len(gagnants) > 1 :
+            nombre_de_joueurs = len(tournoi.get("liste_des_joueurs", []))
+            format_tournoi = self.definir_format_tournoi(nombre_de_joueurs)
+
+            if format_tournoi == "Elimination Simple":
+                match_dates = [datetime.strptime(match[3], "%H:%M le %d.%m.%Y") for match in tournoi.get("liste_des_matchs")]
+                nouv_date = max(match_dates) + timedelta(minutes=6)
+                nouv_match = self.generer_tournoi(gagnants, len(gagnants), tournoi.get("nombres_de_tables"), nouv_date)
+                coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"liste_des_matchs": nouv_match}})
+            elif format_tournoi == "Tournoi à la ronde":
+                victoires_par_joueur = Counter(gagnants)
+                gagnant = victoires_par_joueur.most_common(1)[0][0]
+                coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"gagnant": gagnant}, })
+                coll.update_one({"nom_tournoi": nom_tournoi}, {"$unset": {"liste_des_matchs": ""}})
+        else :
+            gagnant_unique = gagnants[0]
+            coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"gagnant": gagnant_unique}})
+            coll.update_one({"nom_tournoi": nom_tournoi}, {"$unset": {"liste_des_matchs": ""}})
+
+    def retour_gagnant(self, nomTournoi: str):
+        coll = self.db.tournoi
+        tournoi = coll.find_one({"nom_tournoi": nomTournoi})
+
+        if tournoi:
+            gagnant = tournoi.get("gagnant")
+            if gagnant is not None:
+                return gagnant
+        return "null"
+
+
+
+
+
+
+
+
+
 
 
 if __name__ == '__main__':

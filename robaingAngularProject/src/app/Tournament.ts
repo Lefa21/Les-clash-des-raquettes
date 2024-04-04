@@ -25,6 +25,10 @@ export interface Matchs {
     heure_debut_tournoi: string;
   }
 
+  export interface updateTournament{
+    nom_tournoi : string;
+    liste_gagnants: string[];
+  }
   export class nameTournament{
     name: string;
     constructor(name: string) {

@@ -42,3 +42,15 @@ def modif_dateheure_tournoi():
 
     return tournoi.modifier_dateheure_tournoi(nom_tournoi, date_tournoi, heure_debut_tournoi)
 
+@tournois_bp.route('/mettre_a_jour_tournoi', methods=['PUT'])
+def mettre_a_jour_tournoi():
+    data = request.get_json()
+    nom_tournoi = data['nom_tournoi']
+    gagnants = data['liste_gagnants']
+
+    tournoi.mettre_a_jour_tournoi(nom_tournoi,gagnants)
+    return "Tournoi mis à jour avec succès"
+
+@tournois_bp.route('/get_gagnant/<nomTournoi>', methods=['GET'])
+def get_gagnant(nomTournoi):
+    return jsonify(tournoi.retour_gagnant(nomTournoi))

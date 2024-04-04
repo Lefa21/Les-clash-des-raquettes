@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Player, NewNamePlayer, namePlayer} from "./Player";
-import {AffichageTournament, nameTournament, Tournament, Matchs, newDateAndHourTournament} from "./Tournament";
+import {
+  AffichageTournament,
+  nameTournament,
+  Tournament,
+  Matchs,
+  newDateAndHourTournament,
+  updateTournament
+} from "./Tournament";
 
 
 
@@ -17,6 +24,10 @@ export class ApiService {
 
   getAffichageMatchTournament(nomTournoi: string): Observable<Matchs[]> {
     return this.http.get<Matchs[]>('/api/tournois/afficher_match/' + nomTournoi);
+  }
+
+  getWinner(nomTournoi: string): Observable<string> {
+    return this.http.get<string>('/api/tournois/get_gagnant/' + nomTournoi);
   }
 
   getAffichageTournament(): Observable<AffichageTournament[]> {
@@ -52,5 +63,9 @@ export class ApiService {
   modDateEtHeureTournoi(formData: newDateAndHourTournament): Observable<string> {
     return this.http.post('/api/tournois/modifier_dateheure_tournoi', formData, { responseType: 'text' });
   }
+
+    sendWinner(formData: updateTournament):Observable<string> {
+      return this.http.put('/api/tournois/mettre_a_jour_tournoi', formData, { responseType: 'text' })
+    }
 }
 
