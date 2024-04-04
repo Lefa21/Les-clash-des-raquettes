@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
 import { ApiService } from '../api.service';
 import {Matchs, nameTournament} from '../Tournament';
+import {NgFor, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-detail-tournoi',
   templateUrl: './detail-tournoi.component.html',
+  imports:[RouterOutlet, RouterLink, NgIf, NgFor],
   styleUrls: ['./detail-tournoi.component.css'],
   standalone: true
 })
