@@ -27,8 +27,10 @@ def suppr_tournoi():
     nom_tournoi = data['name']
     return tournoi.supprimer_tournoi_par_nom(nom_tournoi)
 
-@tournois_bp.route('/afficher_match', methods=['GET'])
-def affichage_match():
-    nom_tournoi = request.args.get('nom_tournoi')
-    return jsonify(tournoi.afficher_match(nom_tournoi))
+@tournois_bp.route('/afficher_match/<nomTournoi>', methods=['GET'])
+def affichage_match(nomTournoi):
+    print(jsonify(tournoi.afficher_match(nomTournoi)))
+    return jsonify(tournoi.afficher_match(nomTournoi))
+
+
 

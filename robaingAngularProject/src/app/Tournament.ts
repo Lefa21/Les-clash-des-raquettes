@@ -15,13 +15,9 @@ export interface AffichageTournament {
   nombre_participants: number;
 }
 
-
 export interface Matchs {
-    joueur_1: string;
-    joueur_2: string;
-    table : string;
-    horaire : string;
-  }
+  [index: number]: string;
+}
 
   export class nameTournament{
     name: string;

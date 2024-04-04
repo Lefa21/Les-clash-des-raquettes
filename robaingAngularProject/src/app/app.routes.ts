@@ -20,5 +20,5 @@ export const routes: Routes = [
   {path: 'inserer-tournoi', component: InsererTournoiComponent},
   {path: 'afficher-tournoi', component: AfficherTournoiComponent},
   {path: 'supprimer-tournoi', component: SupprimerTournoiComponent},
-  {path: 'detail-tournoi', component: DetailTournoiComponent}
+  {path: 'detail-tournoi/:nomTournoi', component: DetailTournoiComponent}
 ];

@@ -5,6 +5,7 @@ import {Player, NewNamePlayer, namePlayer} from "./Player";
 import {AffichageTournament, nameTournament, Tournament, Matchs} from "./Tournament";
 
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,7 +15,7 @@ export class ApiService {
     return this.http.get<Player[]>(`/api/personnes/`)
   }
 
-  getAffichageMatchTournament(nomTournoi: nameTournament): Observable<Matchs[]> {
+  getAffichageMatchTournament(nomTournoi: string): Observable<Matchs[]> {
     return this.http.get<Matchs[]>('/api/tournois/afficher_match/' + nomTournoi);
   }
 

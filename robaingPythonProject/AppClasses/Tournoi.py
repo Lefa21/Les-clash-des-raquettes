@@ -66,16 +66,16 @@ class Tournoi(Connexion):
         else:
             return False
 
-    def afficher_match(self, nom_tournoi: int):
-        coll = self.db.tournois
-        matches = []
-        tournois = coll.find_one({"nom": nom_tournoi})
-        for tournoi in tournois:
-            if 'matches' in tournoi:
-                matches.extend(tournoi['matches'])
-        return matches
+    def afficher_match(self, nomTournoi: str):
+        coll = self.db.tournoi
+        tournoi = coll.find_one({"nom_tournoi": nomTournoi})
+        if tournoi:
+            matches = tournoi.get('liste_des_matchs', [])
+            print(matches)
+            return matches
 
-
+        else:
+            return []
 
     def definir_format_tournoi(self, nb_joueur: int) -> str:
         if est_puissance_de_2(nb_joueur) and nb_joueur <= 32:

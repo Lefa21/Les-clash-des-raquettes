@@ -4,6 +4,7 @@ import {AffichageTournament} from "../Tournament";
 import {RouterLink} from "@angular/router";
 import {NgForOf} from "@angular/common";
 
+
 @Component({
   selector: 'app-afficher-tournoi',
   standalone: true,

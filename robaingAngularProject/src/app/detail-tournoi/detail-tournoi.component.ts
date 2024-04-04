@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, RouterLink, RouterOutlet} from '@angular/router';
+import {RouterLink, RouterOutlet} from '@angular/router';
 import { ApiService } from '../api.service';
 import {Matchs, nameTournament} from '../Tournament';
 import {NgFor, NgIf} from "@angular/common";
+import { ActivatedRoute } from '@angular/router';
+
 
 @Component({
   selector: 'app-detail-tournoi',
@@ -13,22 +15,19 @@ import {NgFor, NgIf} from "@angular/common";
 })
 export class DetailTournoiComponent implements OnInit {
   data: Matchs[] = [];
-  nomTournoi: nameTournament = { name: '' };
+  nomTournoi: string | null = '';
 
 
   constructor(private route: ActivatedRoute, private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      let nomTournoi = params['nomTournoi'];
-      this.loadMatches();
-    });
-  }
-
-  loadMatches() {
-    this.apiService.getAffichageMatchTournament(this.nomTournoi).subscribe(response => {
-      this.data = response;
-      console.log(this.data);
+    this.route.paramMap.subscribe(params => {
+      this.nomTournoi = params.get('nomTournoi');
+      if (this.nomTournoi != null) {
+        this.apiService.getAffichageMatchTournament(this.nomTournoi).subscribe(matchs => {
+          this.data = matchs;
+        });
+      }
     });
   }
 }

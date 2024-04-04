@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container mt-5" *ngIf="data && data.length > 0">
   <h2>Matches Du Tournoi</h2>
   <table class="table">
     <thead>
@@ -11,11 +11,14 @@
     </thead>
     <tbody>
     <tr *ngFor="let match of data">
-      <td>{{ match.joueur_1 }}</td>
-      <td>{{ match.joueur_2 }}</td>
-      <td>{{ match.table }}</td>
-      <td>{{ match.horaire }}</td>
+      <td>{{ match[0] }}</td>
+      <td>{{ match[1] }}</td>
+      <td>{{ match[2] }}</td>
+      <td>{{ match[3] }}</td>
     </tr>
     </tbody>
   </table>
+</div>
+<div class="container mt-5" *ngIf="!data || data.length === 0">
+  <p>Aucun match trouvé.</p>
 </div>
