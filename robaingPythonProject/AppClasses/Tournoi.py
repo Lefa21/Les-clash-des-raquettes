@@ -6,11 +6,11 @@ from random import randint
 
 
 def joue_deja_a_cette_heure(joueur_1: str, heure_match: datetime, liste_matchs: list):
-    if liste_matchs == []:
+    if not liste_matchs:
         return False
     for match in liste_matchs:
         if (joueur_1 == match[0] or joueur_1 == match[1]) and match[3] == heure_match.strftime(
-                "%H.%M.%d.%m.%Y"):
+                "%H:%M le %d.%m.%Y"):
             return True
     return False
 
@@ -20,7 +20,7 @@ def horaire_complet(nb_table: int, liste_matchs: list, heure_match: datetime):
         return False
     compteur = 0
     for match in liste_matchs:
-        if match[3] == heure_match.strftime("%H.%M.%d.%m"):
+        if match[3] == heure_match.strftime("%H:%M le %d.%m.%Y"):
             compteur += 1
     return True if compteur == nb_table else False
 
@@ -28,6 +28,18 @@ def horaire_complet(nb_table: int, liste_matchs: list, heure_match: datetime):
 def calcul_nb_phase(nb_joueurs):
     while nb_joueurs > 0:
         return
+
+
+def nb_match_a_cette_heure(liste_match: list, heure_match: datetime):
+    """Ici on calcule le nombre de matchs à un horaire donné mais la fonction a pour finalité d'attribuer un numéro
+    de table à chaque match"""
+    if not liste_match:
+        return 1
+    compteur = 1
+    for match in liste_match:
+        if heure_match.strftime("%H:%M le %d.%m.%Y") == match[3]:
+            compteur += 1
+    return compteur
 
 
 class Tournoi(Connexion):
@@ -124,9 +136,11 @@ class Tournoi(Connexion):
             for i in range(nb_joueur // 2):
                 while horaire_complet(nb_joueur, liste_matchs, heure_match):
                     heure_match += timedelta(minutes=6)
+                numero_table = nb_match_a_cette_heure(liste_matchs, heure_match)
                 liste_matchs.append([liste_joueurs.pop(randint(0, liste_joueurs.__len__() - 1)),
                                      liste_joueurs.pop(randint(0, liste_joueurs.__len__() - 1)),
-                                     heure_match.strftime("%H.%M.%d.%m.%Y")])
+                                     "Table " + str(numero_table),
+                                     heure_match.strftime("%H:%M le %d.%m.%Y"), heure_match])
                 heure_match = date_heure_debut
         elif format_tournoi == "Tournoi à la ronde":
             liste_matchs = []
@@ -137,7 +151,9 @@ class Tournoi(Connexion):
                            or joue_deja_a_cette_heure(joueurs[j], heure_match, liste_matchs)):
                         heure_match += timedelta(minutes=6)
                         print(date_heure_debut.strftime("%H.%M.%d.%m.%Y"))
-                    liste_matchs.append([joueurs[i], joueurs[j], "Table ", heure_match.strftime("%H.%M.%d.%m.%Y")])
+                    numero_table = nb_match_a_cette_heure(liste_matchs, heure_match)
+                    liste_matchs.append([joueurs[i], joueurs[j], "Table " + str(numero_table),
+                                         heure_match.strftime("%H:%M le %d.%m.%Y"), heure_match])
                     heure_match = date_heure_debut
         return liste_matchs
 
@@ -170,5 +186,5 @@ class Tournoi(Connexion):
 if __name__ == '__main__':
     tournoi = Tournoi()
     print(
-        tournoi.generer_tournoi(["Robin", "Faraz", "Thomas", "Arthur", "Huseyin", "Thibault", "Sarah"], 7, 3,
+        tournoi.generer_tournoi(["Robin", "Faraz", "Thomas", "Arthur", "Huseyin", "Thibault", "Sarah"], 7, 2,
                                 datetime.now()))

@@ -4,7 +4,7 @@ import { ApiService } from '../api.service';
 import {Matchs, nameTournament} from '../Tournament';
 import {NgFor, NgIf} from "@angular/common";
 import { ActivatedRoute } from '@angular/router';
-
+import moment from 'moment';
 
 @Component({
   selector: 'app-detail-tournoi',
@@ -26,7 +26,14 @@ export class DetailTournoiComponent implements OnInit {
       if (this.nomTournoi != null) {
         this.apiService.getAffichageMatchTournament(this.nomTournoi).subscribe(matchs => {
           this.data = matchs;
+          /*this.data.forEach(match => {
+            match[3] = moment(match[3], "HH:mm [le] DD.MM.YYYY", true);
+          });
+          this.data.sort((a, b) => {
+            return a[3].isBefore(b[3]) ? -1 : 1;
+          });*/
         });
+
       }
     });
   }
