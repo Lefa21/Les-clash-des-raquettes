@@ -20,6 +20,7 @@ def horaire_complet(nb_table: int, liste_matchs: list, heure_match: datetime):
         return False
     compteur = 0
     for match in liste_matchs:
+        print(match)
         if match[3] == heure_match.strftime("%H.%M.%d.%m"):
             compteur += 1
     return True if compteur == nb_table else False
@@ -91,7 +92,7 @@ class Tournoi(Connexion):
                 while horaire_complet(nb_joueur, liste_matchs, heure_match):
                     heure_match += timedelta(minutes=6)
                 liste_matchs.append([liste_joueurs.pop(randint(0, liste_joueurs.__len__() - 1)),
-                                     liste_joueurs.pop(randint(0, liste_joueurs.__len__() - 1)),
+                                     liste_joueurs.pop(randint(0, liste_joueurs.__len__() - 1)), "Table ",
                                      heure_match.strftime("%H.%M.%d.%m.%Y")])
                 heure_match = date_heure_debut
         elif format_tournoi == "Tournoi à la ronde":
@@ -136,5 +137,5 @@ class Tournoi(Connexion):
 if __name__ == '__main__':
     tournoi = Tournoi()
     print(
-        tournoi.generer_tournoi(["Robin", "Faraz", "Thomas", "Arthur", "Huseyin", "Thibault", "Sarah"], 7, 3,
+        tournoi.generer_tournoi(["Robin", "Faraz", "Thomas", "Arthur"], 4, 3,
                                 datetime.now()))
