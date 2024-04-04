@@ -17,7 +17,7 @@
       <td>{{ tournament.heure_debut_tournoi }}</td>
       <td>{{ tournament.nombre_participants }}</td>
       <td>
-        <a class="btn btn-primary" [routerLink]="['/detail-tournoi', tournament.nom_tournoi]">Détails</a>
+        <a class="btn btn-primary" [routerLink]="['/detail-tournoi', tournament.nom_tournoi]">Détails</a><a class="btn btn-primary"  (click)="deleteTournament(tournament.nom_tournoi)">Supprimer</a>
       </td>
     </tr>
     </tbody>
