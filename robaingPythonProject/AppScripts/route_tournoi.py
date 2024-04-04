@@ -5,9 +5,11 @@ from robaingPythonProject.AppClasses.Tournoi import (Tournoi)
 tournoi = Tournoi()
 
 tournois_bp = Blueprint('routes', __name__)
+
 @tournois_bp.route('/', methods=['GET'])
 def get_tournois():
     return tournoi.display_tournament()
+
 @tournois_bp.route('/inserer_tournoi', methods=['POST'])
 def inserer_tournoi():
     data = request.get_json()
@@ -24,3 +26,9 @@ def suppr_tournoi():
     data = request.get_json()
     nom_tournoi = data['name']
     return tournoi.supprimer_tournoi_par_nom(nom_tournoi)
+
+@tournois_bp.route('/afficher_match', methods=['GET'])
+def affichage_match():
+    nom_tournoi = request.args.get('nom_tournoi')
+    return jsonify(tournoi.afficher_match(nom_tournoi))
+

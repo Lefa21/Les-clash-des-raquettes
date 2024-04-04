@@ -59,6 +59,7 @@ class Joueur(Connexion):
             return False
 
     def supprimer_joueur_par_pseudo(self, pseudo: str):
+
         coll = self.db.personnes
         joueur = coll.find_one({"pseudo": pseudo})
         if joueur:
