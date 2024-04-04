@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Player, NewNamePlayer, namePlayer} from "./Player";
-import {AffichageTournament, nameTournament, Tournament, Matchs} from "./Tournament";
+import {AffichageTournament, nameTournament, Tournament, Matchs, newDateAndHourTournament} from "./Tournament";
 
 
 
@@ -47,6 +47,10 @@ export class ApiService {
 
   modifierJoueurPseudo(formData: NewNamePlayer): Observable<string> {
     return this.http.post('/api/personnes/modifier_joueur', formData, { responseType: 'text' });
+  }
+
+  modDateEtHeureTournoi(formData: newDateAndHourTournament): Observable<string> {
+    return this.http.post('/api/tournois/modifier_dateheure_tournoi', formData, { responseType: 'text' });
   }
 }
 

@@ -19,6 +19,12 @@ export interface Matchs {
   [index: number]: string;
 }
 
+  export interface newDateAndHourTournament {
+    nom_tournoi: string;
+    date_tournoi: string;
+    heure_debut_tournoi: string;
+  }
+
   export class nameTournament{
     name: string;
     constructor(name: string) {
