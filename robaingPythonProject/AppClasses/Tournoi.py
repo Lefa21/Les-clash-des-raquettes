@@ -67,6 +67,30 @@ class Tournoi(Connexion):
         else:
             return False
 
+    def modifier_dateheure_tournoi(self, nom_tournoi: str, date_debut_tournoi: str, heure_debut_tournoi: str):
+        coll = self.db.tournoi
+
+        if self.tournoi_existe(nom_tournoi):
+            tournoi_existant = coll.find_one({"nom_tournoi": nom_tournoi})
+            liste_des_joueurs = tournoi_existant.get("liste_des_joueurs")
+            nombre_de_table = tournoi_existant.get("nombres_de_tables")
+
+            liste_de_matchs = self.generer_tournoi(liste_des_joueurs, len(liste_des_joueurs), nombre_de_table,
+                                                   datetime.strptime(date_debut_tournoi + " " + heure_debut_tournoi,
+                                                                     "%Y-%m-%d %H:%M"))
+
+            coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {
+                "date_debut_tournoi": date_debut_tournoi,
+                "heure_debut_tournoi": heure_debut_tournoi,
+                "liste_des_matchs": liste_de_matchs
+
+            }})
+
+            return "La date et l'heure du tournoi ont été mis à jour"
+        else:
+            return "Le tournoi n'existe pas"
+
+
     def afficher_match(self, nom_tournoi: int):
         coll = self.db.tournois
         matches = []

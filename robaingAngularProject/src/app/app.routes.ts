@@ -8,6 +8,7 @@ import {InsererTournoiComponent} from "./inserer-tournoi/inserer-tournoi.compone
 import {AfficherTournoiComponent} from "./afficher-tournoi/afficher-tournoi.component"
 import {SupprimerTournoiComponent} from "./supprimer-tournoi/supprimer-tournoi.component";
 import {DetailTournoiComponent} from "./detail-tournoi/detail-tournoi.component";
+import {ModifierTournoiComponent} from "./modifier-tournoi/modifier-tournoi.component";
 
 
 
@@ -20,5 +21,6 @@ export const routes: Routes = [
   {path: 'inserer-tournoi', component: InsererTournoiComponent},
   {path: 'afficher-tournoi', component: AfficherTournoiComponent},
   {path: 'supprimer-tournoi', component: SupprimerTournoiComponent},
-  {path: 'detail-tournoi', component: DetailTournoiComponent}
+  {path: 'detail-tournoi', component: DetailTournoiComponent},
+  {path: 'modifier-tournoi' ,component: ModifierTournoiComponent}
 ];

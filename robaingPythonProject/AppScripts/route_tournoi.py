@@ -27,6 +27,16 @@ def suppr_tournoi():
     nom_tournoi = data['name']
     return tournoi.supprimer_tournoi_par_nom(nom_tournoi)
 
+@tournois_bp.route('/modifier_dateheure_tournoi', methods=['POST'])
+def modif_dateheure_tournoi():
+    data = request.get_json()
+    nom_tournoi = data['nom_tournoi']
+    print(nom_tournoi)
+    date_tournoi = data['date_tournoi']
+    heure_debut_tournoi = data['heure_debut_tournoi']
+
+    return tournoi.modifier_dateheure_tournoi(nom_tournoi, date_tournoi, heure_debut_tournoi)
+
 @tournois_bp.route('/afficher_match', methods=['GET'])
 def affichage_match():
     nom_tournoi = request.args.get('nom_tournoi')
