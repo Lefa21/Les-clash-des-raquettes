@@ -85,9 +85,15 @@ class Joueur(Connexion):
         request = coll.find()
 
         for personne in request:
-            found.append(personne)
+            filtered_personnes = {
+                'prenom': personne.get('prenom', ''),
+                'nom' : personne.get('nom', ''),
+                'date_naissance': personne.get('date_naissance', ''),
+                'sexe' : personne.get('sexe', ''),
+                'pseudo' : personne.get('pseudo', '')
+            }
+            found.append(filtered_personnes)
         return found
-
 
 if __name__ == "__main__":
     j = Joueur()
