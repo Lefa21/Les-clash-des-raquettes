@@ -1,24 +1,24 @@
-.matches-container {
-  background-color: #f7d7eb;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  margin-top: 50px;
+
+th, td {
+  padding: 10px;
+  border: 1px solid #8e3a5f;
 }
 
-.matches-table th {
+th {
   color: #8e3a5f;
+  font-weight: bold;
 }
 
-.matches-table td {
-  border-top: 1px solid #8e3a5f;
-}
-
-.matches-table tbody tr:last-child td {
+tbody tr:last-child td {
   border-bottom: 1px solid #8e3a5f;
 }
 
-.no-matches {
-  margin-top: 20px;
-  color: #8e3a5f;
+.btn-primary {
+  background-color: #8e3a5f;
+  border-color: #8e3a5f;
+}
+
+.tournament-actions .btn-primary:hover {
+  background-color: #6c2743;
+  border-color: #6c2743;
 }

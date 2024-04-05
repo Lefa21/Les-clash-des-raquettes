@@ -12,7 +12,7 @@ import {NgIf} from "@angular/common";
     FormsModule,
     NgIf
   ],
-  styleUrls: ['./modifier-joueur.component.css']
+  styleUrl: './modifier-joueur.component.css'
 })
 export class ModifierJoueurComponent implements OnInit {
   joueurData: NewNamePlayer = {

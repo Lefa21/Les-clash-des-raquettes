@@ -10,7 +10,7 @@ import {FormsModule} from "@angular/forms";
   selector: 'app-detail-tournoi',
   templateUrl: './detail-tournoi.component.html',
   imports: [RouterOutlet, RouterLink, NgIf, NgFor, FormsModule],
-  styleUrls: ['./detail-tournoi.component.css'],
+  styleUrl: './detail-tournoi.component.css',
   standalone: true
 })
 export class DetailTournoiComponent implements OnInit {
