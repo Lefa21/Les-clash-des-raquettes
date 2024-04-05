@@ -60,8 +60,10 @@ export class DetailTournoiComponent implements OnInit {
       }
     });
     this.gagnants.nom_tournoi = this.nomTournoi || '';
-    this.apiService.sendWinner(this.gagnants).subscribe(() => {
-      window.location.reload();
-    });
+    if (this.gagnants.liste_gagnants.length == this.data.length) {
+      this.apiService.sendWinner(this.gagnants).subscribe(() => {
+        window.location.reload();
+      });
+    }
   }
 }
