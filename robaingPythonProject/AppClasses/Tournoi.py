@@ -135,7 +135,7 @@ class Tournoi(Connexion):
         if format_tournoi == "Elimination Simple":
             liste_matchs = []
             for i in range(nb_joueur // 2):
-                while horaire_complet(nb_joueur, liste_matchs, heure_match):
+                while horaire_complet(nb_table, liste_matchs, heure_match):
                     heure_match += timedelta(minutes=6)
                 numero_table = nb_match_a_cette_heure(liste_matchs, heure_match)
                 liste_matchs.append([liste_joueurs.pop(randint(0, liste_joueurs.__len__() - 1)),
@@ -147,7 +147,7 @@ class Tournoi(Connexion):
             liste_matchs = []
             for i in range(joueurs.__len__()):
                 for j in range(i + 1, joueurs.__len__()):
-                    while (horaire_complet(nb_joueur, liste_matchs, heure_match)
+                    while (horaire_complet(nb_table, liste_matchs, heure_match)
                            or joue_deja_a_cette_heure(joueurs[i], heure_match, liste_matchs)
                            or joue_deja_a_cette_heure(joueurs[j], heure_match, liste_matchs)):
                         heure_match += timedelta(minutes=6)
