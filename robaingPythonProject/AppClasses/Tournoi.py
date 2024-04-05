@@ -193,7 +193,7 @@ class Tournoi(Connexion):
 
             if format_tournoi == "Elimination Simple":
                 match_dates = [datetime.strptime(match[3], "%H:%M le %d.%m.%Y") for match in tournoi.get("liste_des_matchs")]
-                nouv_date = max(match_dates) + timedelta(minutes=6)
+                nouv_date = max(match_dates) + timedelta(minutes=12)
                 nouv_match = self.generer_tournoi(gagnants, len(gagnants), tournoi.get("nombres_de_tables"), nouv_date)
                 coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"liste_des_matchs": nouv_match}})
             elif format_tournoi == "Tournoi à la ronde":

@@ -32,11 +32,10 @@ def affichage_match(nomTournoi):
     print(jsonify(tournoi.afficher_match(nomTournoi)))
     return jsonify(tournoi.afficher_match(nomTournoi))
 
-@tournois_bp.route('/modifier_dateheure_tournoi', methods=['POST'])
+@tournois_bp.route('/modifier_dateheure_tournoi', methods=['PUT'])
 def modif_dateheure_tournoi():
     data = request.get_json()
     nom_tournoi = data['nom_tournoi']
-    print(nom_tournoi)
     date_tournoi = data['date_tournoi']
     heure_debut_tournoi = data['heure_debut_tournoi']
 

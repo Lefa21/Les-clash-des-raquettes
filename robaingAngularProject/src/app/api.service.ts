@@ -61,7 +61,7 @@ export class ApiService {
   }
 
   modDateEtHeureTournoi(formData: newDateAndHourTournament): Observable<string> {
-    return this.http.post('/api/tournois/modifier_dateheure_tournoi', formData, { responseType: 'text' });
+    return this.http.put('/api/tournois/modifier_dateheure_tournoi', formData, { responseType: 'text' });
   }
 
     sendWinner(formData: updateTournament):Observable<string> {
