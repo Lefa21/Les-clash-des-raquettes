@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 
-from robaingPythonProject.AppClasses.Tournoi import (Tournoi)
+from robaingPythonProject.AppClasses.Tournoi import (Tournoi, genere_format)
 
 tournoi = Tournoi()
 
@@ -10,6 +10,12 @@ tournois_bp = Blueprint('routes', __name__)
 @tournois_bp.route('/', methods=['GET'])
 def get_tournois():
     return tournoi.display_tournament(), 200
+
+
+@tournois_bp.route('/propose_format', methods=['GET'])
+def propose_route():
+    nombre_participant = request.args.get('nombre_participent')
+    return "yo", 200
 
 
 @tournois_bp.route('/inserer_tournoi', methods=['POST'])

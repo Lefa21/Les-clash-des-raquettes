@@ -16,14 +16,15 @@ def determine_poule(nb_participants, nb_poule):
         nb_participants // nb_poule + j for j in [nb_participants / nb_poule % 1 >= 0.25 * k for k in range(1, 5)]]
 
 
-def format(nb_participants, nb_table, temps_max):
+def genere_format(nb_participants, nb_table, temps_max):
+    choix = []
     duree_championat = calcul_duree_poule(nb_participants, nb_table)
     if nb_participants <= 8 and duree_championat <= temps_max:
-        print(f"a la ronde pour une durée de {duree_championat}min")
+        choix += ["RONDE"]
 
     nb_joueurs_brackets = 4
     if nb_participants <= nb_joueurs_brackets:
-        return "au revoir"
+        return None
 
     for nb_poule in [2, 4]:
         poules = determine_poule(nb_participants, nb_poule)
@@ -31,7 +32,7 @@ def format(nb_participants, nb_table, temps_max):
             continue
         temp_tournoi = 14 + sum(calcul_duree_poule(p, nb_table) for p in poules)
         if temp_tournoi <= temps_max:
-            print(f"{nb_poule} poules: {poules} pour une durée de {temp_tournoi}min")
+            choix += [poules]
 
 
 def joue_deja_a_cette_heure(joueur_1: str, heure_match: datetime, liste_matchs: list):

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgForOf, NgIf} from "@angular/common";
 import {Tournament} from "../Tournament";
@@ -25,12 +25,16 @@ export class InsererTournoiComponent {
     joueurs_participants: [],
     nombre_tables: null as unknown as number,
     liste_matchs: []
-
   }
   joueurs: Player[] = [];
   joueurs_selectionnes: Player[] = [];
-  messageFromServer : string = '';
-  constructor(private tournoiService: ApiService) {}
+  messageFromServer: string = '';
+  afficheFormat: boolean = false
+  format: any
+  selectedPlayer: Player | null = null;
+
+  constructor(private tournoiService: ApiService) {
+  }
 
   ngOnInit(): void {
     this.tournoiService.getAffichageJoueur().subscribe(
@@ -39,7 +43,7 @@ export class InsererTournoiComponent {
       },
     );
   }
-  selectedPlayer: Player | null = null;
+
   addPlayer() {
     if (this.selectedPlayer) {
       this.tournoiData.joueurs_participants.push(this.selectedPlayer.pseudo);
@@ -48,22 +52,35 @@ export class InsererTournoiComponent {
       this.selectedPlayer = null;
     }
   }
+
   onSubmit() {
     this.tournoiService.addTournoi(this.tournoiData).subscribe(
-      (response : string) => {
+      (response: string) => {
         this.messageFromServer = response;
       },
     );
   }
 
+  handleShowFormat() {
+    this.afficheFormat = !this.afficheFormat;
+    let requete = {
+      nombre_participent: this.tournoiData.joueurs_participants.length
+    }
+    this.format = this.tournoiService.getChoixFormat(requete).subscribe(
+      (response: string) => {
+        this.format = response;
+        console.log(this.format);
+      });
+  }
+
   retirerJoueur(pseudo: string) {
     const index = this.tournoiData.joueurs_participants.indexOf(pseudo)
-    if(index != -1)
-      this.tournoiData.joueurs_participants.splice(index,1)
-      this.joueurs_selectionnes.forEach(joueur => {
-        if(joueur.pseudo == pseudo)
-          if(this.joueurs.indexOf(joueur) == -1)
-            this.joueurs.push(joueur)
-      })
+    if (index != -1)
+      this.tournoiData.joueurs_participants.splice(index, 1)
+    this.joueurs_selectionnes.forEach(joueur => {
+      if (joueur.pseudo == pseudo)
+        if (this.joueurs.indexOf(joueur) == -1)
+          this.joueurs.push(joueur)
+    })
   }
 }
