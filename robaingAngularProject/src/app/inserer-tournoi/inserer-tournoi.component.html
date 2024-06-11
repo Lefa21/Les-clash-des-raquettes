@@ -19,6 +19,12 @@
     </div>
     <div class="form-row">
       <div class="form-group col-md-6">
+        <label for="duree_tournoi">Durée du tournoi</label>
+        <input type="time" class="form-control" id="duree_tournoi" name="duree_tournoi" [(ngModel)]="tournoiData.duree_tournoi">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
         <label for="nombre_tables">Nombre de tables</label>
         <input type="number" class="form-control" id="nombre_tables" name="nombre_tables" placeholder="Nombre de tables" [(ngModel)]="tournoiData.nombre_tables">
       </div>

@@ -21,6 +21,7 @@ export class InsererTournoiComponent {
     nom_tournoi: '',
     date_tournoi: '',
     heure_debut_tournoi: '',
+    duree_tournoi: '',
     joueurs_participants: [],
     nombre_tables: null as unknown as number,
     liste_matchs: []

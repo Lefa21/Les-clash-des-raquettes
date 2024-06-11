@@ -18,6 +18,7 @@ export class ModifierTournoiComponent {
   tournoiData: newDateAndHourTournament = {
     nom_tournoi: '',
     date_tournoi: '',
+    duree_tournoi:'',
     heure_debut_tournoi : ''
   };
 

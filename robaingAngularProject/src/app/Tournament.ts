@@ -3,6 +3,7 @@ export interface Tournament {
     nom_tournoi: string;
     date_tournoi: string;
     heure_debut_tournoi: string;
+    duree_tournoi: string;
     joueurs_participants: string[]
     nombre_tables: number;
     liste_matchs: Matchs[]
@@ -11,6 +12,7 @@ export interface Tournament {
 export interface AffichageTournament {
   date_tournoi: string;
   heure_debut_tournoi: string;
+  duree_tournoi : string;
   nom_tournoi: string;
   nombre_participants: number;
 }
@@ -22,6 +24,7 @@ export interface Matchs {
   export interface newDateAndHourTournament {
     nom_tournoi: string;
     date_tournoi: string;
+    duree_tournoi : string;
     heure_debut_tournoi: string;
   }
 
