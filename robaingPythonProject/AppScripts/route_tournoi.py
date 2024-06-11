@@ -14,8 +14,12 @@ def get_tournois():
 
 @tournois_bp.route('/propose_format', methods=['GET'])
 def propose_route():
-    nombre_participant = request.args.get('nombre_participent')
-    return "yo", 200
+    nombre_participant = int(request.args.get('nombre_participent'))
+    nombre_table = int(request.args.get('nombre_table'))
+    h, m = [int(x) for x in request.args.get('duree').split(":")]
+    duree = h * 60 + m
+    choix = genere_format(nombre_participant, nombre_table, duree)
+    return jsonify(choix), 200
 
 
 @tournois_bp.route('/inserer_tournoi', methods=['POST'])

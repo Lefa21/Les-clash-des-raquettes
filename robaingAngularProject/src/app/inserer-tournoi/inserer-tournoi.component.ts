@@ -64,7 +64,9 @@ export class InsererTournoiComponent {
   handleShowFormat() {
     this.afficheFormat = !this.afficheFormat;
     let requete = {
-      nombre_participent: this.tournoiData.joueurs_participants.length
+      nombre_participent: this.tournoiData.joueurs_participants.length,
+      nombre_table: this.tournoiData.nombre_tables,
+      duree: this.tournoiData.duree_tournoi
     }
     this.format = this.tournoiService.getChoixFormat(requete).subscribe(
       (response: string) => {

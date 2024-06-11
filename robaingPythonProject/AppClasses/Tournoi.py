@@ -23,16 +23,17 @@ def genere_format(nb_participants, nb_table, temps_max):
         choix += ["RONDE"]
 
     nb_joueurs_brackets = 4
-    if nb_participants <= nb_joueurs_brackets:
+    if nb_participants < nb_joueurs_brackets:
         return None
 
     for nb_poule in [2, 4]:
         poules = determine_poule(nb_participants, nb_poule)
-        if 2 in poules:
+        if 2 in poules or 1 in poules:
             continue
         temp_tournoi = 14 + sum(calcul_duree_poule(p, nb_table) for p in poules)
         if temp_tournoi <= temps_max:
             choix += [poules]
+    return choix
 
 
 def joue_deja_a_cette_heure(joueur_1: str, heure_match: datetime, liste_matchs: list):
