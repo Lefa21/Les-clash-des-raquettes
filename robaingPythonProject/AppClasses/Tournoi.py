@@ -1,9 +1,37 @@
+import math
+from collections import Counter
 from datetime import datetime, timedelta
+from random import randint
 
 from robaingPythonProject.AppClasses.Connexion import Connexion
 from robaingPythonProject.AppScripts.methodesUtiles import *
-from random import randint
-from collections import Counter
+
+
+def calcul_duree_poule(taille_poule, nb_table):
+    return math.ceil(taille_poule * (taille_poule - 1) / 2 / nb_table * 8)
+
+
+def determine_poule(nb_participants, nb_poule):
+    return [nb_participants // nb_poule + (j and nb_participants % 2) for j in range(2)] if nb_poule == 2 else [
+        nb_participants // nb_poule + j for j in [nb_participants / nb_poule % 1 >= 0.25 * k for k in range(1, 5)]]
+
+
+def format(nb_participants, nb_table, temps_max):
+    duree_championat = calcul_duree_poule(nb_participants, nb_table)
+    if nb_participants <= 8 and duree_championat <= temps_max:
+        print(f"a la ronde pour une durée de {duree_championat}min")
+
+    nb_joueurs_brackets = 4
+    if nb_participants <= nb_joueurs_brackets:
+        return "au revoir"
+
+    for nb_poule in [2, 4]:
+        poules = determine_poule(nb_participants, nb_poule)
+        if 2 in poules:
+            continue
+        temp_tournoi = 14 + sum(calcul_duree_poule(p, nb_table) for p in poules)
+        if temp_tournoi <= temps_max:
+            print(f"{nb_poule} poules: {poules} pour une durée de {temp_tournoi}min")
 
 
 def joue_deja_a_cette_heure(joueur_1: str, heure_match: datetime, liste_matchs: list):
@@ -17,7 +45,7 @@ def joue_deja_a_cette_heure(joueur_1: str, heure_match: datetime, liste_matchs: 
 
 
 def horaire_complet(nb_table: int, liste_matchs: list, heure_match: datetime):
-    if liste_matchs == []:
+    if not liste_matchs:
         return False
     compteur = 0
     for match in liste_matchs:
@@ -32,7 +60,7 @@ def calcul_nb_phase(nb_joueurs):
 
 
 def nb_match_a_cette_heure(liste_match: list, heure_match: datetime):
-    """Ici on calcule le nombre de matchs à un horaire donné mais la fonction a pour finalité d'attribuer un numéro
+    """Ici, on calcule le nombre de matchs à un horaire donné, mais la fonction a pour finalité d'attribuer un numéro
     de table à chaque match"""
     if not liste_match:
         return 1
@@ -48,7 +76,10 @@ class Tournoi(Connexion):
     def __init__(self):
         Connexion.__init__(self)
 
-    def inserer_tournoi(self, nom_tournoi: str, date_debut_tournoi: str, heure_debut_tournoi: str, nombre_de_table: int,
+    def inserer_tournoi(self, nom_tournoi: str,
+                        date_debut_tournoi: str,
+                        heure_debut_tournoi: str,
+                        nombre_de_table: int,
                         liste_des_joueurs: list):
 
         if not (nom_tournoi and date_debut_tournoi and heure_debut_tournoi and nombre_de_table and liste_des_joueurs):
@@ -74,7 +105,7 @@ class Tournoi(Connexion):
     def tournoi_existe(self, nom_tournoi: str):
         coll = self.db.tournoi
         requete = coll.find_one({"nom_tournoi": nom_tournoi})
-        if (requete != None):
+        if requete is not None:
             return True
         else:
             return False
@@ -102,9 +133,9 @@ class Tournoi(Connexion):
         else:
             return "Le tournoi n'existe pas"
 
-    def afficher_match(self, nomTournoi: str):
+    def afficher_match(self, nom_tournoi: str):
         coll = self.db.tournoi
-        tournoi = coll.find_one({"nom_tournoi": nomTournoi})
+        tournoi = coll.find_one({"nom_tournoi": nom_tournoi})
         if tournoi:
             matches = tournoi.get('liste_des_matchs', [])
             print(matches)
@@ -183,16 +214,17 @@ class Tournoi(Connexion):
         else:
             return "Le tournoi avec le nom donné n'existe pas dans la base de données."
 
-    def mettre_a_jour_tournoi (self, nom_tournoi: str, gagnants: list):
+    def mettre_a_jour_tournoi(self, nom_tournoi: str, gagnants: list):
         coll = self.db.tournoi
         tournoi = coll.find_one({"nom_tournoi": nom_tournoi})
 
-        if len(gagnants) > 1 :
+        if len(gagnants) > 1:
             nombre_de_joueurs = len(tournoi.get("liste_des_joueurs", []))
             format_tournoi = self.definir_format_tournoi(nombre_de_joueurs)
 
             if format_tournoi == "Elimination Simple":
-                match_dates = [datetime.strptime(match[3], "%H:%M le %d.%m.%Y") for match in tournoi.get("liste_des_matchs")]
+                match_dates = [datetime.strptime(match[3], "%H:%M le %d.%m.%Y") for match in
+                               tournoi.get("liste_des_matchs")]
                 nouv_date = max(match_dates) + timedelta(minutes=12)
                 nouv_match = self.generer_tournoi(gagnants, len(gagnants), tournoi.get("nombres_de_tables"), nouv_date)
                 coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"liste_des_matchs": nouv_match}})
@@ -201,7 +233,7 @@ class Tournoi(Connexion):
                 gagnant = victoires_par_joueur.most_common(1)[0][0]
                 coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"gagnant": gagnant}, })
                 coll.update_one({"nom_tournoi": nom_tournoi}, {"$unset": {"liste_des_matchs": ""}})
-        else :
+        else:
             gagnant_unique = gagnants[0]
             coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"gagnant": gagnant_unique}})
             coll.update_one({"nom_tournoi": nom_tournoi}, {"$unset": {"liste_des_matchs": ""}})
@@ -215,15 +247,6 @@ class Tournoi(Connexion):
             if gagnant is not None:
                 return gagnant
         return "null"
-
-
-
-
-
-
-
-
-
 
 
 if __name__ == '__main__':
