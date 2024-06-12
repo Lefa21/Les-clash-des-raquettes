@@ -20,7 +20,7 @@ def genere_format(nb_participants, nb_table, temps_max):
     choix = []
     duree_championat = calcul_duree_poule(nb_participants, nb_table)
     if nb_participants <= 8 and duree_championat <= temps_max:
-        choix += ["RONDE"]
+        choix += [("RONDE", duree_championat)]
 
     nb_joueurs_brackets = 4
     if nb_participants < nb_joueurs_brackets:
@@ -32,7 +32,7 @@ def genere_format(nb_participants, nb_table, temps_max):
             continue
         temp_tournoi = 14 + sum(calcul_duree_poule(p, nb_table) for p in poules)
         if temp_tournoi <= temps_max:
-            choix += [poules]
+            choix += [(f"POULE :{poules}", temp_tournoi)]
     return choix
 
 
@@ -82,7 +82,8 @@ class Tournoi(Connexion):
                         date_debut_tournoi: str,
                         heure_debut_tournoi: str,
                         nombre_de_table: int,
-                        liste_des_joueurs: list):
+                        liste_des_joueurs: list,
+                        format: list):
 
         if not (nom_tournoi and date_debut_tournoi and heure_debut_tournoi and nombre_de_table and liste_des_joueurs):
             return "Certains paramètres sont vides ou nuls"
@@ -90,19 +91,23 @@ class Tournoi(Connexion):
         if not liste_des_joueurs:
             return "La liste des joueurs est vide"
 
-        liste_de_matchs = self.generer_tournoi(liste_des_joueurs, len(liste_des_joueurs), nombre_de_table,
-                                               datetime.strptime(date_debut_tournoi + " " + heure_debut_tournoi,
-                                                                 "%Y-%m-%d %H:%M"))
+        self.generer_tournoi_2(liste_des_joueurs, len(liste_des_joueurs), nombre_de_table,
+                               datetime.strptime(date_debut_tournoi + " " + heure_debut_tournoi,
+                                                 "%Y-%m-%d %H:%M"), format)
 
-        coll = self.db.tournoi
-        if self.tournoi_existe(nom_tournoi):
-            return "Un tournoi ayant ce nom existe déjà "
-        else:
-            coll.insert_one(
-                {"nom_tournoi": nom_tournoi, "date_debut_tournoi": date_debut_tournoi,
-                 "heure_debut_tournoi": heure_debut_tournoi, "nombres_de_tables": nombre_de_table,
-                 "liste_des_joueurs": liste_des_joueurs, "liste_des_matchs": liste_de_matchs})
-            return "Tournoi inséré"
+        # liste_de_matchs = self.generer_tournoi(liste_des_joueurs, len(liste_des_joueurs), nombre_de_table,
+        #                                        datetime.strptime(date_debut_tournoi + " " + heure_debut_tournoi,
+        #                                                          "%Y-%m-%d %H:%M"))
+        #
+        # coll = self.db.tournoi
+        # if self.tournoi_existe(nom_tournoi):
+        #     return "Un tournoi ayant ce nom existe déjà "
+        # else:
+        #     coll.insert_one(
+        #         {"nom_tournoi": nom_tournoi, "date_debut_tournoi": date_debut_tournoi,
+        #          "heure_debut_tournoi": heure_debut_tournoi, "nombres_de_tables": nombre_de_table,
+        #          "liste_des_joueurs": liste_des_joueurs, "liste_des_matchs": liste_de_matchs})
+        #     return "Tournoi inséré"
 
     def tournoi_existe(self, nom_tournoi: str):
         coll = self.db.tournoi
@@ -120,7 +125,7 @@ class Tournoi(Connexion):
             liste_des_joueurs = tournoi_existant.get("liste_des_joueurs")
             nombre_de_table = tournoi_existant.get("nombres_de_tables")
 
-            liste_de_matchs = self.generer_tournoi(liste_des_joueurs, len(liste_des_joueurs), nombre_de_table,
+            liste_de_matchs = self.generer_tournoi(liste_des_joueurs, nombre_de_table,
                                                    datetime.strptime(date_debut_tournoi + " " + heure_debut_tournoi,
                                                                      "%Y-%m-%d %H:%M"))
 
@@ -160,7 +165,15 @@ class Tournoi(Connexion):
             return "rienpourlemoment"  # Des poules de 3 à 4 joueurs qui élimineront 1 joueur si
             # 3 joueurs dans la poule et 2 joueurs si 4 joueurs dans la poule.
 
-    def generer_tournoi(self, joueurs: list, nb_joueur: int, nb_table: int, date_heure_debut: datetime):
+    def generer_tournoi_2(self, joueurs: list, nb_joueur: int, nb_table: int, date_heure_debut: datetime, format: list):
+        if "RONDE" in format[0]:
+            pass
+        else:
+            _, poules = format[0].split(':')
+            poules = [int(x) for x in poules.replace('[', '').replace(']', '').split(',')]
+            # todo algo qui genere les match here
+
+    def generer_tournoi(self, joueurs: list, nb_table: int, date_heure_debut: datetime):
         global liste_matchs
         format_tournoi = self.definir_format_tournoi(nb_joueur)
         liste_joueurs = joueurs.copy()
@@ -249,10 +262,3 @@ class Tournoi(Connexion):
             if gagnant is not None:
                 return gagnant
         return "null"
-
-
-if __name__ == '__main__':
-    tournoi = Tournoi()
-    print(
-        tournoi.generer_tournoi(["Robin", "Faraz", "Thomas", "Arthur", "Huseyin", "Thibault", "Sarah"], 7, 2,
-                                datetime.now()))

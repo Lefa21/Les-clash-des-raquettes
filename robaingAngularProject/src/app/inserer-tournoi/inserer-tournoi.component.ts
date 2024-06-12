@@ -24,7 +24,8 @@ export class InsererTournoiComponent {
     duree_tournoi: '',
     joueurs_participants: [],
     nombre_tables: null as unknown as number,
-    liste_matchs: []
+    liste_matchs: [],
+    format: ''
   }
   joueurs: Player[] = [];
   joueurs_selectionnes: Player[] = [];
@@ -63,6 +64,8 @@ export class InsererTournoiComponent {
 
   handleShowFormat() {
     this.afficheFormat = !this.afficheFormat;
+    if (!this.afficheFormat)
+      return
     let requete = {
       nombre_participent: this.tournoiData.joueurs_participants.length,
       nombre_table: this.tournoiData.nombre_tables,
@@ -73,6 +76,10 @@ export class InsererTournoiComponent {
         this.format = response;
         console.log(this.format);
       });
+  }
+
+  selectFormat(format: any) {
+    this.tournoiData.format = format;
   }
 
   retirerJoueur(pseudo: string) {

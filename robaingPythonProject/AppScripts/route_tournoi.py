@@ -30,9 +30,10 @@ def inserer_tournoi():
     heure_debut_tournoi = data['heure_debut_tournoi']
     nombre_tables = data['nombre_tables']
     joueurs_participants = data['joueurs_participants']
+    format = data['format']
 
     return tournoi.inserer_tournoi(nom_tournoi, date_tournoi, heure_debut_tournoi, nombre_tables,
-                                   joueurs_participants), 200
+                                   joueurs_participants, format), 200
 
 
 @tournois_bp.route('/supprimer_tournoi', methods=['POST'])

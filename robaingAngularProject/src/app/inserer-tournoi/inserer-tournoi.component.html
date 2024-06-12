@@ -23,7 +23,8 @@
     <div class="form-row">
       <div class="form-group col-md-6">
         <label for="duree_tournoi">Durée du tournoi</label>
-        <input type="time" class="form-control" id="duree_tournoi" name="duree_tournoi" [(ngModel)]="tournoiData.duree_tournoi">
+        <input type="time" class="form-control" id="duree_tournoi" name="duree_tournoi"
+               [(ngModel)]="tournoiData.duree_tournoi">
       </div>
     </div>
     <div class="form-row">
@@ -49,11 +50,15 @@
       </ul>
     </div>
     <a (click)="handleShowFormat()"
-            *ngIf="tournoiData.joueurs_participants && tournoiData.joueurs_participants.length > 3 && tournoiData.nombre_tables && tournoiData.nombre_tables > 0"
-            class="btn btn-secondary">voir format possible
+       *ngIf="tournoiData.joueurs_participants && tournoiData.joueurs_participants.length > 3 && tournoiData.nombre_tables && tournoiData.nombre_tables > 0"
+       class="btn btn-secondary">voir format possible
     </a>
     <div *ngIf="afficheFormat">
-      {{ format }}
+      <div *ngFor="let f of format" class="d-flex m-2">
+        <input type="radio" [value]="f" name="format" (change)="selectFormat(f)" [(ngModel)]="tournoiData.format"
+               class="mr-2"/>
+        <p>{{ f[0] }} pour une durée de {{ f[1] }}</p>
+      </div>
     </div>
     <button type="submit" class="btn btn-primary">Soumettre</button>
   </form>
