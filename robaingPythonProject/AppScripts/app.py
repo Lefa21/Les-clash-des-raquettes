@@ -1,14 +1,10 @@
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
 from flask import Flask
 from flask_cors import CORS
 from route_joueur import personnes_bp
 from route_tournoi import tournois_bp
-
-
 
 app = Flask(__name__)
 cors = CORS(app)
