@@ -1,14 +1,19 @@
 import math
 from collections import Counter
 from datetime import datetime, timedelta
-from random import randint
 
 from AppClasses.Connexion import Connexion
 from AppScripts.methodesUtiles import *
 
 
+def est_puissance_de_2(n):
+    if n <= 0:
+        return False
+    return (n & (n - 1)) == 0
+
+
 def calcul_duree_poule(taille_poule, nb_table):
-    return math.ceil(taille_poule * (taille_poule - 1) / 2 / nb_table * 8)
+    return math.ceil(taille_poule * (taille_poule - 1) / 2 / nb_table * 5)
 
 
 def determine_poule(nb_participants, nb_poule):
@@ -22,15 +27,20 @@ def genere_format(nb_participants, nb_table, temps_max):
     if nb_participants <= 8 and duree_championat <= temps_max:
         choix += [("RONDE", duree_championat)]
 
+    duree_championat = sum(
+        nb_participants / (2 ** x) for x in range(1, int(math.log2(nb_participants) + 1))) * 5 / nb_table
+    if est_puissance_de_2(nb_participants) and duree_championat <= temps_max:
+        choix += [("BRAQUET", duree_championat)]
+
     nb_joueurs_brackets = 4
     if nb_participants < nb_joueurs_brackets:
-        return None
+        return choix
 
     for nb_poule in [2, 4]:
         poules = determine_poule(nb_participants, nb_poule)
         if 2 in poules or 1 in poules:
             continue
-        temp_tournoi = 14 + sum(calcul_duree_poule(p, nb_table) for p in poules)
+        temp_tournoi = 5 * (3 if nb_table == 1 else 2) + sum(calcul_duree_poule(p, nb_table) for p in poules)
         if temp_tournoi <= temps_max:
             choix += [(f"POULE :{poules}", temp_tournoi)]
     return choix
@@ -62,8 +72,13 @@ def calcul_nb_phase(nb_joueurs):
 
 
 def nb_match_a_cette_heure(liste_match: list, heure_match: datetime):
-    """Ici, on calcule le nombre de matchs à un horaire donné, mais la fonction a pour finalité d'attribuer un numéro
-    de table à chaque match"""
+    """
+    Ici, on calcule le nombre de matchs à
+    un horaire donné, mais la fonction a
+    pour finalité d'attribuer un numéro
+    de table à chaque match
+    """
+
     if not liste_match:
         return 1
     compteur = 1
@@ -101,7 +116,7 @@ class Tournoi(Connexion):
         #
         coll = self.db.tournoi
         if self.tournoi_existe(nom_tournoi):
-            return "Un tournoi ayant ce nom existe déjà "
+            return "Un tournoi ayant ce nom existe déjà"
         else:
             coll.insert_one(
                 {"nom_tournoi": nom_tournoi, "date_debut_tournoi": date_debut_tournoi,
@@ -133,7 +148,6 @@ class Tournoi(Connexion):
                 "date_debut_tournoi": date_debut_tournoi,
                 "heure_debut_tournoi": heure_debut_tournoi,
                 "liste_des_matchs": liste_de_matchs
-
             }})
 
             return "La date et l'heure du tournoi ont été mis à jour"
@@ -145,9 +159,7 @@ class Tournoi(Connexion):
         tournoi = coll.find_one({"nom_tournoi": nom_tournoi})
         if tournoi:
             matches = tournoi.get('liste_des_matchs', [])
-            print(matches)
             return matches
-
         else:
             return []
 
@@ -168,7 +180,7 @@ class Tournoi(Connexion):
     def generer_tournoi_2(self, joueurs: list, nb_table: int, date_heure_debut: datetime, format: list):
         if "RONDE" in format[0]:
             pass
-        else:
+        else:  # avec poules
             _, poules = format[0].split(':')
             poules = [int(x) for x in poules.replace('[', '').replace(']', '').split(',')]
             matchs_poules = [
@@ -186,7 +198,8 @@ class Tournoi(Connexion):
                         t[1],
                         "Table " + str(compteur_table + 1),
                         date_heure_debut.strftime("%H:%M le %d.%m.%Y"),
-                        date_heure_debut
+                        date_heure_debut,
+                        "Poule " + str(index_poule)
                     ])
                     compteur_table = (compteur_table + 1) % nb_table
                     if not compteur_table:
@@ -270,6 +283,10 @@ class Tournoi(Connexion):
                 gagnant = victoires_par_joueur.most_common(1)[0][0]
                 coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"gagnant": gagnant}, })
                 coll.update_one({"nom_tournoi": nom_tournoi}, {"$unset": {"liste_des_matchs": ""}})
+
+            elif format_tournoi == "POULE":
+                for i in gagnants:
+                    coll.insert_one({"nom_tournoi": nom_tournoi})
         else:
             gagnant_unique = gagnants[0]
             coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"gagnant": gagnant_unique}})
