@@ -214,7 +214,16 @@ class Tournoi(Connexion):
     def mettre_a_jour_tournoi(self, nom_tournoi: str, gagnants: list):
         coll = self.db.tournoi
         tournoi = coll.find_one({"nom_tournoi": nom_tournoi})
-        _, format = tournoi.get('format')[0].split(':')
+        if "POULE" in tournoi.get('format'):
+            self.gere_poule(nom_tournoi, gagnants)
+        elif "Demi-final" in tournoi.get('format'):
+            self.gere_demi_final(nom_tournoi, gagnants)
+
+    def gere_poule(self, nom_tournoi, gagnants):
+        coll = self.db.tournoi
+        tournoi = coll.find_one({"nom_tournoi": nom_tournoi})
+        nombre_table = tournoi.get('nombres_de_tables')
+        _, format = tournoi.get('format').split(':')
         format = [int(x) for x in format.replace('[', '').replace(']', '').split(',')]
 
         matchs = tournoi.get("liste_des_matchs")
@@ -243,39 +252,74 @@ class Tournoi(Connexion):
         finalistes = []
 
         for p in poules:
+            sorted_items = sorted(p.items(), key=lambda item: item[1], reverse=True)
             if len(format) == 4:
-                finalistes += [max_key, p[max_key]]
+                print(sorted_items[0])
+                finalistes.append(sorted_items[0])
+            elif len(format) == 2:
+                top_two = sorted_items[:2]
+                for t in top_two:
+                    finalistes += [t]
 
-        # for poule, joueurs in groupes_par_poule.items():
-        #     compteur_joueurs = Counter(joueurs)
-        #     joueur_plus_represente = compteur_joueurs.most_common(1)[0][0]
-        #     joueurs_plus_represents[poule] = joueur_plus_represente
-        #
-        # print("joueurs_plus_represents: ", joueurs_plus_represents)
+        new_match = [
+            [
+                finalistes[0][0],
+                finalistes[1][0],
+                "Table 1",
+                "todo time",
+                "todo time",
+                "Demi-final",
+                "En cours"
+            ],
+            [
+                finalistes[2][0],
+                finalistes[3][0],
+                "Table 1" if nombre_table == 1 else "Table 2",
+                "todo time",
+                "todo time",
+                "Demi-final",
+                "En cours"
+            ]
+        ]
+        coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"format": "Demi-final"}})
+        coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"liste_des_matchs": new_match}})
 
-        # if len(gagnants) > 1:
-        #     nombre_de_joueurs = len(tournoi.get("liste_des_joueurs", []))
-        #     format_tournoi = self.definir_format_tournoi(nombre_de_joueurs)
-        #
-        #     if format_tournoi == "Elimination Simple":
-        #         match_dates = [datetime.strptime(match[3], "%H:%M le %d.%m.%Y") for match in
-        #                        tournoi.get("liste_des_matchs")]
-        #         nouv_date = max(match_dates) + timedelta(minutes=12)
-        #         nouv_match = self.generer_tournoi(gagnants, len(gagnants), tournoi.get("nombres_de_tables"), nouv_date)
-        #         coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"liste_des_matchs": nouv_match}})
-        #     elif format_tournoi == "Tournoi à la ronde":
-        #         victoires_par_joueur = Counter(gagnants)
-        #         gagnant = victoires_par_joueur.most_common(1)[0][0]
-        #         coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"gagnant": gagnant}, })
-        #         coll.update_one({"nom_tournoi": nom_tournoi}, {"$unset": {"liste_des_matchs": ""}})
-        #
-        #     elif format_tournoi == "POULE":
-        #         for i in gagnants:
-        #             coll.insert_one({"nom_tournoi": nom_tournoi})
-        # else:
-        #     gagnant_unique = gagnants[0]
-        #     coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"gagnant": gagnant_unique}})
-        #     coll.update_one({"nom_tournoi": nom_tournoi}, {"$unset": {"liste_des_matchs": ""}})
+    def gere_demi_final(self, nom_tournoi, gagnants):
+        coll = self.db.tournoi
+        tournoi = coll.find_one({"nom_tournoi": nom_tournoi})
+        matchs = tournoi.get("liste_des_matchs")
+
+        for gagnant in gagnants:
+            for m in matchs:
+                if m[0] == gagnant["joueurs"][0] and m[1] == gagnant["joueurs"][1]:
+                    m[6] = gagnant["gagnant"]
+
+        for m in matchs:
+            if m[6] == 'En cours':
+                coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"liste_des_matchs": matchs}})
+                return
+
+        coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"liste_des_matchs": matchs}})
+
+        finalistes = []
+
+        for m in matchs:
+            finalistes += [m[6]]
+
+        new_match = [
+            [
+                finalistes[0],
+                finalistes[1],
+                "Table 1",
+                "todo time",
+                "todo time",
+                "Finale",
+                "En cours"
+            ]
+        ]
+
+        coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"format": "Finale"}})
+        coll.update_one({"nom_tournoi": nom_tournoi}, {"$set": {"liste_des_matchs": new_match}})
 
     def display_tournament(self):
         coll = self.db.tournoi
@@ -302,9 +346,9 @@ class Tournoi(Connexion):
         else:
             return "Le tournoi avec le nom donné n'existe pas dans la base de données."
 
-    def retour_gagnant(self, nomTournoi: str):
+    def retour_gagnant(self, nom_tournoi: str):
         coll = self.db.tournoi
-        tournoi = coll.find_one({"nom_tournoi": nomTournoi})
+        tournoi = coll.find_one({"nom_tournoi": nom_tournoi})
 
         if tournoi:
             gagnant = tournoi.get("gagnant")
