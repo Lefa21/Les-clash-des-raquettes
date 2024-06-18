@@ -30,7 +30,7 @@ export interface newDateAndHourTournament {
 
 export interface updateTournament {
   nom_tournoi: string;
-  liste_gagnants: string[];
+  liste_gagnants: { joueur: string; poule: string }[];
 }
 
 export class nameTournament {

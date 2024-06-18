@@ -1,5 +1,6 @@
 import math
 from collections import Counter
+from collections import defaultdict
 from datetime import datetime, timedelta
 
 from AppClasses.Connexion import Connexion
@@ -263,10 +264,34 @@ class Tournoi(Connexion):
             return " Ce tournoi a été supprimé ! :)"
         else:
             return "Le tournoi avec le nom donné n'existe pas dans la base de données."
-
+    
     def mettre_a_jour_tournoi(self, nom_tournoi: str, gagnants: list):
         coll = self.db.tournoi
         tournoi = coll.find_one({"nom_tournoi": nom_tournoi})
+
+        groupes_par_poule = defaultdict(gagnants)
+
+        for gagnant in gagnants:
+            poule = gagnant["poule"]
+            groupes_par_poule[poule].append(gagnant["joueur"])
+        
+        joueurs_plus_represents = {}
+
+        groupes_par_poule = dict(groupes_par_poule)
+
+        print(groupes_par_poule)
+
+        for poule, joueurs in groupes_par_poule.items():
+            compteur_joueurs = Counter(joueurs)
+            joueur_plus_represente = compteur_joueurs.most_common(1)[0][0]  # Récupérer le joueur avec le maximum d'occurrences
+            joueurs_plus_represents[poule] = joueur_plus_represente
+
+        # Afficher le résultat
+        print(joueurs_plus_represents)
+
+
+
+
 
         if len(gagnants) > 1:
             nombre_de_joueurs = len(tournoi.get("liste_des_joueurs", []))

@@ -54,16 +54,16 @@ export class DetailTournoiComponent implements OnInit {
       const radioBtnJ2 = document.getElementById(`j2${index}`) as HTMLInputElement;
 
       if (radioBtnJ1.checked) {
-        this.gagnants.liste_gagnants.push(match[0]); // Ajouter le joueur A comme gagnant
+        const gagnant = {joueur : match[0], poule : match[5]};
+        this.gagnants.liste_gagnants.push(gagnant); // Ajouter le joueur A comme gagnant
       } else if (radioBtnJ2.checked) {
-        this.gagnants.liste_gagnants.push(match[1]); // Ajouter le joueur B comme gagnant
+        const gagnant = {joueur : match[1], poule : match[5]};
+        this.gagnants.liste_gagnants.push(gagnant); // Ajouter le joueur B comme gagnant
       }
     });
     this.gagnants.nom_tournoi = this.nomTournoi || '';
-    if (this.gagnants.liste_gagnants.length == this.data.length) {
       this.apiService.sendWinner(this.gagnants).subscribe(() => {
         window.location.reload();
       });
-    }
   }
 }
