@@ -45,7 +45,6 @@ def del_tournoi():
 
 @tournois_bp.route('/afficher_match/<nom_tournoi>', methods=['GET'])
 def affichage_match(nom_tournoi):
-    print(jsonify(tournoi.afficher_match(nom_tournoi)))
     return jsonify(tournoi.afficher_match(nom_tournoi)), 200
 
 
@@ -64,7 +63,6 @@ def mettre_a_jour_tournoi():
     data = request.get_json()
     nom_tournoi = data['nom_tournoi']
     gagnants = data['liste_gagnants']
-
     tournoi.mettre_a_jour_tournoi(nom_tournoi, gagnants)
     return "Tournoi mis à jour avec succès", 200
 
