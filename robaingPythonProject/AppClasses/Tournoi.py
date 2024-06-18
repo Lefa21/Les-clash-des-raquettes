@@ -292,6 +292,3 @@ class Tournoi(Connexion):
             if gagnant is not None:
                 return gagnant
         return "null"
-    
-    def grand_mere():
-        return "ta grand mère"
