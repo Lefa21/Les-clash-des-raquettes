@@ -257,9 +257,7 @@ class Tournoi(Connexion):
         # Afficher le résultat
         print(joueurs_plus_represents)
 
-
-
-
+        
 
         if len(gagnants) > 1:
             nombre_de_joueurs = len(tournoi.get("liste_des_joueurs", []))
@@ -294,3 +292,6 @@ class Tournoi(Connexion):
             if gagnant is not None:
                 return gagnant
         return "null"
+    
+    def grand_mere():
+        return "ta grand mère"
