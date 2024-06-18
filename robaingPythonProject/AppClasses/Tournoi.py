@@ -63,7 +63,7 @@ def horaire_complet(nb_table: int, liste_matchs: list, heure_match: datetime):
     for match in liste_matchs:
         if match[3] == heure_match.strftime("%H:%M le %d.%m.%Y"):
             compteur += 1
-    return True if compteur == nb_table else False
+    return compteur == nb_table
 
 
 def calcul_nb_phase(nb_joueurs):
@@ -203,41 +203,9 @@ class Tournoi(Connexion):
                     ])
                     compteur_table = (compteur_table + 1) % nb_table
                     if not compteur_table:
-                        date_heure_debut += timedelta(minutes=8)
+                        date_heure_debut += timedelta(minutes=5)
                 index_poule = (index_poule + 1) % len(poules)
             return matchs_ordoner
-
-    # def generer_tournoi(self, joueurs: list, nb_table: int, date_heure_debut: datetime):
-    #     global liste_matchs
-    #     nb_joueur = len(joueurs)
-    #     format_tournoi = self.definir_format_tournoi(nb_joueur)
-    #     liste_joueurs = joueurs.copy()
-    #     heure_match = date_heure_debut
-    #     if format_tournoi == "Elimination Simple":
-    #         liste_matchs = []
-    #         for i in range(nb_joueur // 2):
-    #             while horaire_complet(nb_table, liste_matchs, heure_match):
-    #                 heure_match += timedelta(minutes=6)
-    #             numero_table = nb_match_a_cette_heure(liste_matchs, heure_match)
-    #             liste_matchs.append([liste_joueurs.pop(randint(0, liste_joueurs.__len__() - 1)),
-    #                                  liste_joueurs.pop(randint(0, liste_joueurs.__len__() - 1)),
-    #                                  "Table " + str(numero_table),
-    #                                  heure_match.strftime("%H:%M le %d.%m.%Y"), heure_match])
-    #             heure_match = date_heure_debut
-    #     elif format_tournoi == "Tournoi à la ronde":
-    #         liste_matchs = []
-    #         for i in range(joueurs.__len__()):
-    #             for j in range(i + 1, joueurs.__len__()):
-    #                 while (horaire_complet(nb_table, liste_matchs, heure_match)
-    #                        or joue_deja_a_cette_heure(joueurs[i], heure_match, liste_matchs)
-    #                        or joue_deja_a_cette_heure(joueurs[j], heure_match, liste_matchs)):
-    #                     heure_match += timedelta(minutes=6)
-    #                     print(date_heure_debut.strftime("%H.%M.%d.%m.%Y"))
-    #                 numero_table = nb_match_a_cette_heure(liste_matchs, heure_match)
-    #                 liste_matchs.append([joueurs[i], joueurs[j], "Table " + str(numero_table),
-    #                                      heure_match.strftime("%H:%M le %d.%m.%Y"), heure_match])
-    #                 heure_match = date_heure_debut
-    #     return liste_matchs
 
     def display_tournament(self):
         coll = self.db.tournoi
