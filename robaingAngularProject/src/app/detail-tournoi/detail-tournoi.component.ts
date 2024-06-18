@@ -21,7 +21,6 @@ export class DetailTournoiComponent implements OnInit {
   };
   gagnant: string | null = null;
 
-
   constructor(private route: ActivatedRoute, private apiService: ApiService) {
   }
 
@@ -41,25 +40,27 @@ export class DetailTournoiComponent implements OnInit {
     });
   }
 
-
   onSubmit() {
     this.gagnants.liste_gagnants = [];
 
     this.data.forEach((match, index) => {
-      const radioBtnJ1 = document.getElementById(`j1${index}`) as HTMLInputElement;
-      const radioBtnJ2 = document.getElementById(`j2${index}`) as HTMLInputElement;
+      if (match[6] == "En cours") {
+        const radioBtnJ1 = document.getElementById(`j1${index}`) as HTMLInputElement;
+        const radioBtnJ2 = document.getElementById(`j2${index}`) as HTMLInputElement;
 
-      if (radioBtnJ1.checked) {
-        const gagnant = {joueur : match[0], poule : match[5]};
-        this.gagnants.liste_gagnants.push(gagnant); // Ajouter le joueur A comme gagnant
-      } else if (radioBtnJ2.checked) {
-        const gagnant = {joueur : match[1], poule : match[5]};
-        this.gagnants.liste_gagnants.push(gagnant); // Ajouter le joueur B comme gagnant
+        if (radioBtnJ1.checked) {
+          const gagnant = {joueurs: [match[0], match[1]], gagnant: match[0], poule: match[5]};
+          this.gagnants.liste_gagnants.push(gagnant);
+        } else if (radioBtnJ2.checked) {
+          const gagnant = {joueurs: [match[0], match[1]], gagnant: match[1], poule: match[5]};
+          this.gagnants.liste_gagnants.push(gagnant);
+        }
       }
     });
     this.gagnants.nom_tournoi = this.nomTournoi || '';
-      this.apiService.sendWinner(this.gagnants).subscribe(() => {
-        window.location.reload();
-      });
+    this.apiService.sendWinner(this.gagnants).subscribe(() => {
+      window.location.reload();
+    });
+
   }
 }
