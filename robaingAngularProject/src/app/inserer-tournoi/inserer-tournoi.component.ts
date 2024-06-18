@@ -30,9 +30,9 @@ export class InsererTournoiComponent {
   joueurs: Player[] = [];
   joueurs_selectionnes: Player[] = [];
   messageFromServer: string = '';
-  afficheFormat: boolean = false
   format: any
   selectedPlayer: Player | null = null;
+  protected readonly Math = Math;
 
   constructor(private tournoiService: ApiService) {
   }
@@ -51,6 +51,9 @@ export class InsererTournoiComponent {
       this.joueurs = this.joueurs.filter(joueur => joueur !== this.selectedPlayer);
       this.joueurs_selectionnes.push(this.selectedPlayer)
       this.selectedPlayer = null;
+      if (this.tournoiData.joueurs_participants.length > 3) {
+        this.handleShowFormat();
+      }
     }
   }
 
@@ -63,9 +66,6 @@ export class InsererTournoiComponent {
   }
 
   handleShowFormat() {
-    this.afficheFormat = !this.afficheFormat;
-    if (!this.afficheFormat)
-      return
     let requete = {
       nombre_participent: this.tournoiData.joueurs_participants.length,
       nombre_table: this.tournoiData.nombre_tables,
@@ -90,6 +90,9 @@ export class InsererTournoiComponent {
       if (joueur.pseudo == pseudo)
         if (this.joueurs.indexOf(joueur) == -1)
           this.joueurs.push(joueur)
-    })
+    });
+    if (this.tournoiData.joueurs_participants.length > 3) {
+      this.handleShowFormat();
+    }
   }
 }
