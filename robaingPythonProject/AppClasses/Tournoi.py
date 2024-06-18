@@ -3,8 +3,8 @@ from collections import Counter
 from datetime import datetime, timedelta
 from random import randint
 
-from robaingPythonProject.AppClasses.Connexion import Connexion
-from robaingPythonProject.AppScripts.methodesUtiles import *
+from AppClasses.Connexion import Connexion
+from AppScripts.methodesUtiles import *
 
 
 def calcul_duree_poule(taille_poule, nb_table):

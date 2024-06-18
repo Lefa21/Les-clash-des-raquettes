@@ -74,6 +74,13 @@ export class InsererTournoiComponent {
     this.format = this.tournoiService.getChoixFormat(requete).subscribe(
       (response: string) => {
         this.format = response;
+        /*
+        for (let i = 0; i < this.format.length; i++){
+          for (let j = 0; j < this.format [i].length; j++){
+
+        }
+      }
+        */
         console.log(this.format);
       });
   }
